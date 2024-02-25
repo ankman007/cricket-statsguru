@@ -4,8 +4,8 @@ import numpy as np
 from DataProcessingModule import  clean_dataframe
 
 #extracting the numerical values only!!
-def changing_to_float(df , column):
-    return df[f'{column}'].str.extract('(\d+)').astype(float).squeeze()
+def changing_to_float(df, column):
+    return pd.to_numeric(df[column], errors='coerce').astype(float).squeeze()
 
 
 st.title("Hello!")
