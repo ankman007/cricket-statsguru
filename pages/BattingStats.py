@@ -10,8 +10,7 @@ def changing_to_float(df, column):
     except:
         return df[column]
 
-st.title("Hello!")
-st.header("Welcome to the the batting section of Nepali Players!")
+st.title("Batting Stats!")
 
 #getting the data
 batting_players_odi = pd.read_csv("data/batting_players_odi.csv")
@@ -39,7 +38,7 @@ stat_type = st.selectbox(
 )
 players = st.multiselect(
     'Select Players' , 
-    batting_players_t20['Player'] , 
+    batting_players_t20['Player'] if st.session_state.Batting_Series == 'T20' else batting_players_odi['Player'] , 
     key = "Player_chosen"
 )
 
@@ -56,6 +55,7 @@ if st.session_state.Batting_Series == 'ODI':
                 f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
             })
             st.bar_chart(chart_data.set_index('Players') , color="#f4a261")
+            st.table(chart_data)
 
 
 
@@ -71,6 +71,7 @@ if st.session_state.Batting_Series == 'T20':
                 f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
             })
             st.bar_chart(chart_data.set_index('Players') , color="#f4a261")
+            st.table(chart_data)
 
 
 
