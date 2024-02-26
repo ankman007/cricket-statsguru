@@ -5,8 +5,10 @@ from DataProcessingModule import  clean_dataframe
 
 #extracting the numerical values only!!
 def changing_to_float(df, column):
-    return pd.to_numeric(df[column].str.replace('*' , '' , regex = False), errors='coerce').astype(float).squeeze()
-
+    try:
+        return pd.to_numeric(df[column].str.replace('*' , '' , regex = False), errors='coerce').astype(float).squeeze()
+    except:
+        return df[column]
 
 st.title("Hello!")
 st.header("Welcome to the the batting section of Nepali Players!")
