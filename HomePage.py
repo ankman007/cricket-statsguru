@@ -1,10 +1,9 @@
 import streamlit as st 
 
-st.markdown(" ## Welcome to the CrickedNP🏏")
+st.markdown(" ## Welcome🏏")
 st.markdown(
     '''
-    ## The app lets you visualize the stats of your favourite Cricket player!!😎
-    ## Also see the stats of whole Nepalese Team!!📊
+    ## The app lets you visualize the stats of your favourite Cricket player!!😎.Also see the stats of whole Nepalese Team!!📊
 
     Things are still in progress!🏃‍♂️
 
