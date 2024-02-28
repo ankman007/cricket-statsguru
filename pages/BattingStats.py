@@ -51,12 +51,12 @@ if st.session_state.Batting_Series == 'ODI':
 
             #creating dataframe to create chart 
             chart_data = pd.DataFrame({
-                'Players': filtered_players['Player'] , 
+                'Player': filtered_players['Player'] , 
                 f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
             })
            
-            st.bar_chart(chart_data.set_index('Players') , color="#f4a261")
-            st.dataframe(chart_data , width= 800)
+            st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
+            st.dataframe(chart_data.set_index('Player') , width= 800)
 
 
 
@@ -68,11 +68,11 @@ if st.session_state.Batting_Series == 'T20':
 
             #creating dataframe to create chart 
             chart_data = pd.DataFrame({
-                'Players': filtered_players['Player'] , 
+                'Player': filtered_players['Player'] , 
                 f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
             })
-            st.bar_chart(chart_data.set_index('Players') , color="#f4a261")
-            st.dataframe(chart_data , width= 800)
+            st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
+            st.dataframe(chart_data.set_index('Player') , width= 800)
 
 
 
