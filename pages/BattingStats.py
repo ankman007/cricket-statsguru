@@ -20,6 +20,12 @@ batting_players_t20 = pd.read_csv("data/batting_players_t20.csv")
 clean_dataframe(batting_players_odi)
 clean_dataframe(batting_players_t20)
 
+#extracting players without repeating
+def my_union(column_1 , column_2):
+    column_1 = set(column_1)
+    column_2 = set(column_2)
+    return list(column_1.union(column_2))
+
 #changing columns of the dataframes
 columns = ['Player','Span','Matches' , 'Innings' , 'Not Outs' , 'Runs Scored' , 'Highest Score' , 'Batting Average' , 'Strike Rate' , 'Hundreds' , 'Fifties' , 'Ducks']
 batting_players_t20.columns = columns 
@@ -38,7 +44,7 @@ stat_type = st.selectbox(
 )
 players = st.multiselect(
     'Select Players' , 
-    batting_players_t20['Player'] if st.session_state.Batting_Series == 'T20' else batting_players_odi['Player'] , 
+    my_union(batting_players_odi['Player'] , batting_players_t20['Player']) , 
     key = "Player_chosen"
 )
 

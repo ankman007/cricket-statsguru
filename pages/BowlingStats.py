@@ -21,6 +21,12 @@ bowling_players_t20 = pd.read_csv("data/bowling_players_t20.csv")
 clean_dataframe(bowling_players_odi)
 clean_dataframe(bowling_players_t20)
 
+#extracting players without repeating
+def my_union(column_1 , column_2):
+    column_1 = set(column_1)
+    column_2 = set(column_2)
+    return list(column_1.union(column_2))
+
 #changing the columns of the dataframe 
 columns = ['Player' , 'Span' , 'Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Runs Conceded' , 'Wickets Taken' , 'Best Inning Bowling' , 
            'Bowling Average' , 'Economy' , 'Strike Rate' , 'Five Wickets' , 'Ten Wickets' , 'Catches Taken' , 'Stumping Made' ]
@@ -43,7 +49,7 @@ stat_type = st.selectbox(
 
 players = st.multiselect(
     'Select Players' , 
-    bowling_players_odi['Player'] if st.session_state.Bowling_series == "ODI" else bowling_players_t20['Player'] , 
+    my_union(bowling_players_odi['Player'] , bowling_players_t20['Player']), 
     key="Player_chosen"
 )
 
