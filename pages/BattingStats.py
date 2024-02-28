@@ -54,6 +54,7 @@ if st.session_state.Batting_Series == 'ODI':
                 'Players': filtered_players['Player'] , 
                 f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
             })
+           
             st.bar_chart(chart_data.set_index('Players') , color="#f4a261")
             st.table(chart_data)
 
