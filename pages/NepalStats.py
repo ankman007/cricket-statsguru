@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Function to load data and preprocess
 def load_data(url):
-    df = pd.read_csv(url, error_bad_lines=False)
+    df = pd.read_csv(url)
     df['Year'] = pd.to_datetime(df['Match Date']).dt.year
     return df
 
