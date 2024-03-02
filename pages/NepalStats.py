@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Function to load data and preprocess
 def load_data(url):
-    df = pd.read_csv(url, error_bad_lines=False)
+    df = pd.read_csv(url)
     
     # Attempt to convert 'Match Date' to datetime using multiple formats
     df['Match Date'] = pd.to_datetime(df['Match Date'], errors='coerce', infer_datetime_format=True)
