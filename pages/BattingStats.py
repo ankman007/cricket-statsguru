@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from DataProcessingModule import  clean_dataframe
+import plotly.express as px
 
 #extracting the numerical values only!!
 def changing_to_float(df, column):
@@ -79,6 +80,8 @@ if st.session_state.Batting_Series == 'T20':
             })
             st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
             st.dataframe(chart_data.set_index('Player') , width= 800)
+
+st.header("Player only Stats🏏")
 
 
 
