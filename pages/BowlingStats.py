@@ -50,7 +50,8 @@ stat_type = st.selectbox(
 players = st.multiselect(
     'Select Players' , 
     my_union(bowling_players_odi['Player'] , bowling_players_t20['Player']), 
-    key="Player_chosen"
+    key="Player_chosen" , 
+    default= ['S Lamichhane' , 'DS Airee' , 'Karan KC' , 'K Bhurtel']
 )
 
 #for ODI series
