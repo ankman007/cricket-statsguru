@@ -15,8 +15,8 @@ clean_dataframe(batting_players_odi)
 clean_dataframe(batting_players_t20)
 
 #cleaning the Highest score columns 
-batting_players_odi['HS'] = batting_players_odi['HS'].str.replace('*' , '' , regex=True)
-batting_players_t20['HS'] = batting_players_t20['HS'].str.replace('*' , '' , regex=True)
+batting_players_odi['HS'] = batting_players_odi['HS'].str.replace(r'\*' , '' , regex=True)
+batting_players_t20['HS'] = batting_players_t20['HS'].str.replace(r'\*' , '' , regex=True)
 
 #changing the data type of few columns 
 str_column = ['Inns', 'NO', 'Runs', 'HS', 'Ave', 'SR', '100','50', '0']
@@ -86,6 +86,7 @@ if st.session_state.Batting_Series == 'T20':
             st.dataframe(chart_data.set_index('Player') , width= 800)
 
 st.header("Some Noticeable Stats🏏")
+st.markdown("Work is still in progress!!⚒️")
 
 
 
