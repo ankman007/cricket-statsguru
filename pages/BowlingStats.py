@@ -3,12 +3,6 @@ import pandas as pd
 import numpy as np
 from DataProcessingModule import  clean_dataframe
 
-#extracting the numerical values only!!
-def changing_to_float(df, column):
-    try:
-        return pd.to_numeric(df[column].str.replace('*' , '' , regex = False), errors='coerce').astype(float).squeeze()
-    except:
-        return df[column]
 
 st.title("Bowling Stats!")
 
@@ -20,6 +14,12 @@ bowling_players_t20 = pd.read_csv("data/bowling_players_t20.csv")
 #cleaning the null values 
 clean_dataframe(bowling_players_odi)
 clean_dataframe(bowling_players_t20)
+
+#changing the data type of few columns 
+str_column = ['Inns', 'Balls', 'Mdns', 'Runs', 'Wkts', 'BBI',
+       'Ave', 'Econ', 'SR', '5', '10', 'Ct', 'St']
+bowling_players_odi[str_column] = bowling_players_odi[str_column].apply(pd.to_numeric, errors='coerce')
+bowling_players_t20[str_column] = bowling_players_t20[str_column].apply(pd.to_numeric, errors='coerce')
 
 #extracting players without repeating
 def my_union(column_1 , column_2):
@@ -63,7 +63,7 @@ if st.session_state.Bowling_series == 'ODI':
             #creating dataframe to create chart 
             chart_data = pd.DataFrame({
                 'Player': filtered_players['Player'] , 
-                f'{st.session_state.bowling_stats}': changing_to_float(filtered_players , st.session_state.bowling_stats)
+                f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
            
             st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
@@ -80,7 +80,10 @@ if st.session_state.Bowling_series == 'T20':
             #creating dataframe to create chart 
             chart_data = pd.DataFrame({
                 'Player': filtered_players['Player'] , 
-                f'{st.session_state.bowling_stats}': changing_to_float(filtered_players , st.session_state.bowling_stats)
+                f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
             st.bar_chart(chart_data.set_index('Player') , color="#f4a261"  )
             st.dataframe(chart_data.set_index('Player') , width=800)
+            
+st.header("Some Noticeable Stats🏏")
+st.markdown("Work is still in progress!!⚒️")

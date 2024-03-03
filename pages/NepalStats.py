@@ -30,7 +30,7 @@ nepal_loss_odi = df_odi[df_odi['Winner'] != 'Nepal']
 nepal_loss_t20 = df_t20[df_t20['Winner'] != 'Nepal']
 
 # Filter to include only years where there is valid data
-nepal_wins_by_year_odi = nepal_wins_odi[nepal_wins_odi.Year >= 2018].groupby('Year').size().reset_index(name='Wins')
+nepal_wins_by_year_odi = nepal_wins_odi.groupby('Year').size().reset_index(name='Wins')
 nepal_wins_by_year_t20 = nepal_wins_t20.groupby('Year').size().reset_index(name='Wins')
 
 #Nepals Loses 
@@ -52,11 +52,13 @@ tab1 , tab2 = st.tabs(['ODI Wins' , 'T20 Wins'])
 with tab1:
     fig_odi = px.bar(nepal_odi_matches_results, x='Year', y=['Wins' , 'Losses'], title='Wins and Losses Of ODI matches over the years')
     st.plotly_chart(fig_odi , use_container_width=True)
-    st.table(nepal_odi_matches_results.set_index('Year'))
+    nepal_odi_matches_results['Year'] = nepal_odi_matches_results['Year'].astype(str)
+    st.table(nepal_odi_matches_results.set_index('Year') )
 with tab2:
-    fig_t20 = px.bar(nepal_t20_matches_results, x='Year', y=['Wins' , 'Losses'] , title='T20 Wins Over the Years')
+    fig_t20 = px.bar(nepal_t20_matches_results, x='Year', y=['Wins' , 'Losses'] , title='Wins and Losses Of T20 matches over the years')
     st.plotly_chart(fig_t20 , use_container_width=True)
-    st.table(nepal_t20_matches_results.set_index('Year'))
+    nepal_t20_matches_results['Year'] = nepal_t20_matches_results['Year'].astype(str)
+    st.table(nepal_t20_matches_results.set_index('Year') )
 
 
 st.markdown("### Matches result of Nepal against other countries.🆚")
@@ -95,3 +97,25 @@ with col2:
     fig_t20_vs = px.pie(matchups_stats_t20, names='Winner', values='Matches Won', title=f'{st.session_state.opponent_selected} vs Nepal T20 Matchups')
     st.plotly_chart(fig_t20_vs , use_container_width=True )
 st.markdown("*Blank Chart indicates no Matches between teams")
+
+
+st.header("Number of Matches played by Nepal")
+
+def create_colorful_bubble_chart(df, format_type):
+    ground_counts = df['Ground'].value_counts().reset_index()
+    ground_counts.columns = ['Ground', 'Number of Matches']
+
+    fig = px.scatter(ground_counts, x='Ground', y='Number of Matches', size='Number of Matches', color='Number of Matches',
+                     title=f'Number of {format_type} Matches Played in Each Ground',
+                     labels={'Number of Matches': 'Number of Matches'},
+                     size_max=40,  # Adjust the maximum bubble size as needed
+                     color_continuous_scale='viridis')  # Choose a color scale
+
+    fig.update_layout(xaxis_title='Ground', yaxis_title='Number of Matches Played')
+    return fig 
+
+st.plotly_chart(create_colorful_bubble_chart(df_odi, 'ODI') , use_container_width=True)
+
+
+st.plotly_chart(create_colorful_bubble_chart(df_t20, 'T20') , use_container_width=True)
+

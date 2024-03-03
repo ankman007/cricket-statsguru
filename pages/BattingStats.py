@@ -4,13 +4,6 @@ import numpy as np
 from DataProcessingModule import  clean_dataframe
 import plotly.express as px
 
-#extracting the numerical values only!!
-def changing_to_float(df, column):
-    try:
-        return pd.to_numeric(df[column].str.replace('*' , '' , regex = False), errors='coerce').astype(float).squeeze()
-    except:
-        return df[column]
-
 st.title("Batting Stats!")
 
 #getting the data
@@ -20,6 +13,17 @@ batting_players_t20 = pd.read_csv("data/batting_players_t20.csv")
 #cleaning the dataframe through the module 
 clean_dataframe(batting_players_odi)
 clean_dataframe(batting_players_t20)
+
+#cleaning the Highest score columns 
+batting_players_odi['HS'] = batting_players_odi['HS'].str.replace('*' , '' , regex=True)
+batting_players_t20['HS'] = batting_players_t20['HS'].str.replace('*' , '' , regex=True)
+
+#changing the data type of few columns 
+str_column = ['Inns', 'NO', 'Runs', 'HS', 'Ave', 'SR', '100','50', '0']
+batting_players_t20[str_column] = batting_players_t20[str_column].apply(pd.to_numeric, errors='coerce')
+batting_players_odi[str_column] = batting_players_odi[str_column].apply(pd.to_numeric, errors='coerce')
+
+
 
 #extracting players without repeating
 def my_union(column_1 , column_2):
@@ -59,7 +63,7 @@ if st.session_state.Batting_Series == 'ODI':
             #creating dataframe to create chart 
             chart_data = pd.DataFrame({
                 'Player': filtered_players['Player'] , 
-                f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
+                f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
             })
            
             st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
@@ -76,12 +80,12 @@ if st.session_state.Batting_Series == 'T20':
             #creating dataframe to create chart 
             chart_data = pd.DataFrame({
                 'Player': filtered_players['Player'] , 
-                f'{st.session_state.Batting_stats}': changing_to_float(filtered_players , st.session_state.Batting_stats)
+                f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
             })
             st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
             st.dataframe(chart_data.set_index('Player') , width= 800)
 
-st.header("Player only Stats🏏")
+st.header("Some Noticeable Stats🏏")
 
 
 
