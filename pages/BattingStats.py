@@ -36,6 +36,9 @@ columns = ['Player','Span','Matches' , 'Innings' , 'Not Outs' , 'Runs Scored' , 
 batting_players_t20.columns = columns 
 batting_players_odi.columns = columns
 
+#changing missing values into 0 
+batting_players_t20.fillna(0 , inplace = True)
+batting_players_odi.fillna(0 , inplace = True)
 #defining selectbox and sessions
 series_type = st.selectbox(
     'Select Cricket Match Type' , 
@@ -45,7 +48,8 @@ series_type = st.selectbox(
 stat_type = st.selectbox(
     'Select Stats of Players' , 
     columns[2:] , 
-    key = "Batting_stats"
+    key = "Batting_stats" , 
+    index = 4
 )
 players = st.multiselect(
     'Select Players' , 
@@ -67,8 +71,9 @@ if st.session_state.Batting_Series == 'ODI':
                 f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
             })
            
-            st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
-            st.dataframe(chart_data.set_index('Player') , width= 800)
+            fig1 = px.bar(chart_data.set_index('Player'))
+            st.plotly_chart(fig1)
+            # st.dataframe(chart_data.set_index('Player') , width= 800)
 
 
 
@@ -83,11 +88,52 @@ if st.session_state.Batting_Series == 'T20':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
             })
-            st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
-            st.dataframe(chart_data.set_index('Player') , width= 800)
+            # st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
+            fig2 = px.bar(chart_data.set_index('Player'))
+            st.plotly_chart(fig2)
+            # st.dataframe(chart_data.set_index('Player') , width= 800)
 
 st.header("Some Noticeable Stats🏏")
 st.markdown("Work is still in progress!!⚒️")
+
+xaxis = st.selectbox(
+    'X' , 
+    ['Matches' , 'Innings' , 'Not Outs' , 'Runs Scored' , 'Highest Score' , 'Batting Average' , 'Strike Rate' , 'Hundreds' , 'Fifties' , 'Ducks'] , 
+    key = "xaxis"  , 
+    index= 0
+)
+yaxis = st.selectbox(
+    'Y' , 
+    ['Matches' , 'Innings' , 'Not Outs' , 'Runs Scored' , 'Highest Score' , 'Batting Average' , 
+     'Strike Rate' , 'Hundreds' , 'Fifties' , 'Ducks'] , 
+           key = "yaxis" , 
+           index = 3
+)
+size = st.selectbox(
+    'Size' , 
+    ['Matches' , 'Innings' , 'Not Outs' , 'Runs Scored' , 'Highest Score' , 'Batting Average' , 
+     'Strike Rate' , 'Hundreds' , 'Fifties' , 'Ducks'] , 
+           key = "size" , 
+           index = 4
+)
+color = st.selectbox(
+    'Color' , 
+    ['Matches' , 'Innings' , 'Not Outs' , 'Runs Scored' , 'Highest Score' , 'Batting Average' , 
+     'Strike Rate' , 'Hundreds' , 'Fifties' , 'Ducks'] ,
+           key = "color" ,
+           index = 5
+)
+
+
+fig3 = px.scatter(batting_players_odi , x= st.session_state.xaxis , y = st.session_state.yaxis ,
+                 color = st.session_state.color  , size = st.session_state.size ,
+           hover_name="Player" , title="ODI Matches")
+st.plotly_chart(fig3)
+
+fig4 = px.scatter(batting_players_t20 , x= st.session_state.xaxis , y = st.session_state.yaxis ,
+                 color = st.session_state.color  , size = st.session_state.size ,
+           hover_name="Player" , title="T20 Matches")
+st.plotly_chart(fig4)
 
 
 

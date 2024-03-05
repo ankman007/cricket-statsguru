@@ -1,10 +1,12 @@
 import streamlit as st 
 import pandas as pd
 import numpy as np
+import plotly.express as px
 from DataProcessingModule import  clean_dataframe
 
 
 st.title("Bowling Stats!")
+st.markdown("Work is still in progress!!⚒️")
 
 #loading the data 
 bowling_players_odi = pd.read_csv("data/bowling_players_odi.csv")
@@ -33,6 +35,10 @@ columns = ['Player' , 'Span' , 'Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Run
 bowling_players_odi.columns = columns 
 bowling_players_t20.columns = columns 
 
+#Turning NaN into 0 
+bowling_players_odi.fillna(0 , inplace=True)
+bowling_players_t20.fillna(0 , inplace = True)
+
 
 #creating selectbox and sessions
 series_type = st.selectbox(
@@ -44,7 +50,8 @@ series_type = st.selectbox(
 stat_type = st.selectbox(
     'Select Stat of Players' ,
     columns[2::], 
-    key='bowling_stats'
+    key='bowling_stats' , 
+    index = 5
 )
 
 players = st.multiselect(
@@ -66,9 +73,10 @@ if st.session_state.Bowling_series == 'ODI':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
-           
-            st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
-            st.dataframe(chart_data.set_index('Player') ,width=800)
+            fig1 = px.bar(chart_data.set_index('Player'))
+            st.plotly_chart(fig1)
+            # st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
+            # st.dataframe(chart_data.set_index('Player') ,width=800)
 
 
 
@@ -83,8 +91,48 @@ if st.session_state.Bowling_series == 'T20':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
-            st.bar_chart(chart_data.set_index('Player') , color="#f4a261"  )
-            st.dataframe(chart_data.set_index('Player') , width=800)
+            fig2 = px.bar(chart_data.set_index('Player'))
+            st.plotly_chart(fig2)
+            # st.dataframe(chart_data.set_index('Player') , width=800)
             
 st.header("Some Noticeable Stats🏏")
-st.markdown("Work is still in progress!!⚒️")
+
+xaxis = st.selectbox(
+    'X' , 
+    ['Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Runs Conceded' , 'Wickets Taken' , 
+           'Bowling Average' , 'Economy' , 'Strike Rate'] , 
+    key = "xaxis"  , 
+    index= 2
+)
+yaxis = st.selectbox(
+    'Y' , 
+    ['Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Runs Conceded' , 'Wickets Taken',  
+           'Bowling Average' , 'Economy' , 'Strike Rate'] , 
+           key = "yaxis" , 
+           index = 5
+)
+size = st.selectbox(
+    'Size' , 
+    ['Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Runs Conceded' , 'Wickets Taken' ,
+           'Bowling Average' , 'Economy' , 'Strike Rate'] , 
+           key = "size" , 
+           index = 7
+)
+color = st.selectbox(
+    'Color' , 
+    ['Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Runs Conceded' , 'Wickets Taken' ,
+           'Bowling Average' , 'Economy' , 'Strike Rate'] ,
+           key = "color" ,
+           index = 0
+)
+
+
+fig3 = px.scatter(bowling_players_odi , x= st.session_state.xaxis , y = st.session_state.yaxis ,
+                 color = st.session_state.color  , size = st.session_state.size ,
+           hover_name="Player" , title="ODI Matches")
+st.plotly_chart(fig3)
+
+fig4 = px.scatter(bowling_players_t20 , x= st.session_state.xaxis , y = st.session_state.yaxis ,
+                 color = st.session_state.color  , size = st.session_state.size ,
+           hover_name="Player" , title="T20 Matches")
+st.plotly_chart(fig4)
