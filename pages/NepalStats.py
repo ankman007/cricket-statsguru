@@ -99,7 +99,7 @@ with col2:
 st.markdown("*Blank Chart indicates no Matches between teams")
 
 
-st.header("Number of Matches played by Nepal")
+st.header("Number of Matches played by Nepal in each ground")
 
 def create_colorful_bubble_chart(df, format_type):
     ground_counts = df['Ground'].value_counts().reset_index()
@@ -119,3 +119,32 @@ st.plotly_chart(create_colorful_bubble_chart(df_odi, 'ODI') , use_container_widt
 
 st.plotly_chart(create_colorful_bubble_chart(df_t20, 'T20') , use_container_width=True)
 
+st.header("Wins of Countries in each ground against Nepal")
+#Function to create a bar chart for wins and losses on specific grounds
+def create_bar_chart_all_teams(df, format_title):
+    # Filter the data for wins and losses
+    team_results = df[df['Winner'].notnull()]
+    # Count the number of wins and losses for each ground
+    ground_results_count = team_results.groupby(['Ground', 'Winner']).size().unstack(fill_value=0)
+    # Calculate the total count for each ground and sort in descending order
+    ground_results_count['Total'] = ground_results_count.sum(axis=1)
+    ground_results_count = ground_results_count.sort_values(by='Total', ascending=False).drop(columns='Total')
+    # Get unique winners (countries/teams) in the dataset
+    unique_winners = df['Winner'].unique()
+    # Set color sequence dynamically based on the number of unique winners
+    color_sequence = px.colors.qualitative.Set1 if len(unique_winners) <= 10 else px.colors.qualitative.Plotly
+    # Set labels dynamically based on unique winners
+    labels = {winner: f'{winner} Wins' for winner in unique_winners}
+    # Plot the bar chart
+    fig = px.bar(ground_results_count, barmode='stack', color_discrete_sequence=color_sequence, labels=labels )
+    fig.update_layout(title_text=f"All Teams Wins on Specific Grounds which against Nepal ({format_title})",
+                      xaxis_title='Ground',
+                      yaxis_title='Count',
+                      xaxis=dict(tickangle=45, tickmode='array'),
+                      bargap=0.2)
+    return fig
+# Create bar charts for ODI and T20 for all teams
+fig_odi_ground = create_bar_chart_all_teams(df_odi, 'ODI')
+st.plotly_chart(fig_odi_ground)
+fig_t20_ground = create_bar_chart_all_teams(df_t20, 'T20')
+st.plotly_chart(fig_t20_ground)
