@@ -73,7 +73,7 @@ if st.session_state.Bowling_series == 'ODI':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
-            fig1 = px.bar(chart_data.set_index('Player'))
+            fig1 = px.bar(chart_data.set_index('Player').sort_values(by=f"{st.session_state.bowling_stats}" , ascending=False))
             st.plotly_chart(fig1)
             # st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
             # st.dataframe(chart_data.set_index('Player') ,width=800)
@@ -91,7 +91,7 @@ if st.session_state.Bowling_series == 'T20':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
-            fig2 = px.bar(chart_data.set_index('Player'))
+            fig2 = px.bar(chart_data.set_index('Player').sort_values(by=f"{st.session_state.bowling_stats}" , ascending=False))
             st.plotly_chart(fig2)
             # st.dataframe(chart_data.set_index('Player') , width=800)
             

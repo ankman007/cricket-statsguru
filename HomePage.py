@@ -1,9 +1,9 @@
 import streamlit as st 
 
-st.markdown(" # Welcome🏏")
+st.markdown(" # Welcome to CrickyStats🏏")
 st.markdown(
     '''
-    ## The app lets you visualize the stats of your favourite Cricket player!!😎.Also see the stats of whole Nepalese Team!!📊
+    ## Look at the statitics of your favourite Cricket player!!😎.Also see the stats of whole Nepalese Team!!📊
 
 
     ### Features 
@@ -14,6 +14,7 @@ st.markdown(
     - Bowling Section 
     - Overall Nepal's Cricket Stats section
 
+    # The page is being build.⚒️
 '''
 )
 
