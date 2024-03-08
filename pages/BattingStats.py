@@ -71,7 +71,7 @@ if st.session_state.Batting_Series == 'ODI':
                 f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
             })
            
-            fig1 = px.bar(chart_data.set_index('Player').sort_values(by=f"{st.session_state.Batting_stats}" , ascending=False))
+            fig1 = px.bar(chart_data.sort_values(by=f"{st.session_state.Batting_stats}" , ascending=False) , x ="Player" , y=f"{st.session_state.Batting_stats}")
             st.plotly_chart(fig1)
             # st.dataframe(chart_data.set_index('Player') , width= 800)
 
@@ -89,7 +89,7 @@ if st.session_state.Batting_Series == 'T20':
                 f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
             })
             # st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
-            fig2 = px.bar(chart_data.set_index('Player').sort_values(by=f"{st.session_state.Batting_stats}" , ascending = False))
+            fig2 = px.bar(chart_data.sort_values(by=f"{st.session_state.Batting_stats}" , ascending = False) , x = "Player" , y=f"{st.session_state.Batting_stats}")
             st.plotly_chart(fig2)
             # st.dataframe(chart_data.set_index('Player') , width= 800)
 

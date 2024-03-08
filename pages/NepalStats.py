@@ -50,15 +50,13 @@ st.markdown("""
 tab1 , tab2 = st.tabs(['ODI Wins' , 'T20 Wins'])
 
 with tab1:
-    fig_odi = px.bar(nepal_odi_matches_results, x='Year', y=['Wins' , 'Losses'], title='Wins and Losses Of ODI matches over the years')
+    fig_odi = px.bar(nepal_odi_matches_results, x='Year', y=['Wins' , 'Losses'], title='Wins and Losses Of ODI matches over the years', text="Year")
     st.plotly_chart(fig_odi , use_container_width=True)
-    nepal_odi_matches_results['Year'] = nepal_odi_matches_results['Year'].astype(str)
-    # st.table(nepal_odi_matches_results.set_index('Year') )
+
 with tab2:
-    fig_t20 = px.bar(nepal_t20_matches_results, x='Year', y=['Wins' , 'Losses'] , title='Wins and Losses Of T20 matches over the years')
+    fig_t20 = px.bar(nepal_t20_matches_results, x='Year', y=['Wins' , 'Losses'] , title='Wins and Losses Of T20 matches over the years' , text="Year")
     st.plotly_chart(fig_t20 , use_container_width=True)
-    nepal_t20_matches_results['Year'] = nepal_t20_matches_results['Year'].astype(str)
-    # st.table(nepal_t20_matches_results.set_index('Year') )
+
 
 
 st.markdown("### Matches result of Nepal against other countries.🆚")
