@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # Function to load data and preprocess
+@st.cache_data
 def load_data(url):
     df = pd.read_csv(url)
     
@@ -79,20 +80,21 @@ def my_union(column_1 , column_2):
 opponent_country = st.selectbox(
     'Select country' , 
     my_union(odi_opponents , t20_opponents) , 
-    key= "opponent_selected"
+    key= "opponent_selected" , 
+    index = my_union(odi_opponents , t20_opponents).index("Namibia")
 )
 col1 ,col2 = st.columns(2)
 with col1:
     st.header("ODI matches")
     matchups_stats_odi = calculate_matchup_stats(df_odi, st.session_state.opponent_selected, 'Nepal')
-    fig_odi_vs = px.pie(matchups_stats_odi, names='Winner', values='Matches Won', title=f'{st.session_state.opponent_selected} vs Nepal ODI Matchups')
+    fig_odi_vs = px.pie(matchups_stats_odi, names='Winner', values='Matches Won', title=f'{st.session_state.opponent_selected} vs Nepal ODI Matchups' , hole=.5)
     st.plotly_chart(fig_odi_vs , use_container_width=True )
     
 
 with col2:
     st.header("T20 matches")
     matchups_stats_t20 = calculate_matchup_stats(df_t20, st.session_state.opponent_selected, 'Nepal')
-    fig_t20_vs = px.pie(matchups_stats_t20, names='Winner', values='Matches Won', title=f'{st.session_state.opponent_selected} vs Nepal T20 Matchups')
+    fig_t20_vs = px.pie(matchups_stats_t20, names='Winner', values='Matches Won', title=f'{st.session_state.opponent_selected} vs Nepal T20 Matchups' , hole=.5)
     st.plotly_chart(fig_t20_vs , use_container_width=True )
 st.markdown("*Blank Chart indicates no Matches between teams")
 
