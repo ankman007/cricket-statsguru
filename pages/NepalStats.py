@@ -136,6 +136,26 @@ def create_bar_chart_all_teams(df, format_title):
                       bargap=0.2)
     return fig
 
+def create_bar_chart(df, format_title , countries:list ):
+    # Filter the data for Nepal wins and losses
+    nepal_results = df[df['Winner'].isin(countries)]
+    # Count the number of wins and losses for each ground
+    ground_results_count = nepal_results.groupby(['Ground', 'Winner']).size().unstack(fill_value=0)
+    # Calculate the total count for each ground and sort in descending order
+    ground_results_count['Total'] = ground_results_count.sum(axis=1)
+    ground_results_count = ground_results_count.sort_values(by='Total', ascending=False).drop(columns='Total')
+
+
+    # Plot the bar chart
+    fig = px.bar(ground_results_count, barmode='stack', color_discrete_sequence=px.colors.qualitative.Set1, 
+                 labels={'Nepal':'Wins', 'U.A.E.':'Losses', 'Netherlands':'Losses'})
+    fig.update_layout(title_text=f"Nepal {format_title} Wins and Losses on Specific Grounds",
+                      xaxis_title='Ground',
+                      yaxis_title='Count',
+                      xaxis=dict(tickangle=45, tickmode='array'),
+                      bargap=0.2)
+    return fig 
+
 match_type = st.selectbox(
     "Select match type" , 
     ["ODI" , "T20"] , 
@@ -148,17 +168,25 @@ graph_type = st.selectbox(
     index = 0 , 
     key = "chart_type" 
 )
-
+opponent_options = st.multiselect(
+            "Select Opponents *Only for Wins by ground!" , 
+            my_union(t20_opponents , odi_opponents) , 
+            key="bar_opponent" , 
+)
+countries = []
 if st.session_state.match_type == "ODI":
     if st.session_state.chart_type == "Wins By Ground":
-        fig_odi_ground = create_bar_chart_all_teams(df_odi, 'ODI')
+       
+        countries = ["Nepal"] + st.session_state.bar_opponent
+        fig_odi_ground = create_bar_chart(df_odi, 'ODI' , countries=countries)
         st.plotly_chart(fig_odi_ground , use_container_width=True)
     else: 
         st.plotly_chart(create_colorful_bubble_chart(df_odi, 'ODI') , use_container_width=True)
 
 if st.session_state.match_type == "T20":
     if st.session_state.chart_type == "Wins By Ground":
-        fig_t20_ground = create_bar_chart_all_teams(df_t20, 'T20')
+        countries = ["Nepal"] + st.session_state.bar_opponent
+        fig_t20_ground = create_bar_chart(df_t20, 'T20' , countries=countries)
         st.plotly_chart(fig_t20_ground , use_container_width=True)
     else:
         st.plotly_chart(create_colorful_bubble_chart(df_t20, 'T20') , use_container_width=True)
