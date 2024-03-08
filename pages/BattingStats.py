@@ -4,7 +4,6 @@ import numpy as np
 from DataProcessingModule import clean_dataframe
 import plotly.express as px
 
-# Reads batting data for ODI and T20 matches from CSV files
 def load_data():
     batting_players_odi = pd.read_csv("data/batting_players_odi.csv")
     batting_players_t20 = pd.read_csv("data/batting_players_t20.csv")
@@ -25,7 +24,6 @@ def load_data():
 
     return batting_players_odi, batting_players_t20
 
-# Displays a bar chart using Plotly Express based on the selected player's batting statistics.
 def display_batting_chart(batting_players, batting_series):
     if st.session_state.Batting_stats and st.session_state.Player_chosen:
         filtered_players = batting_players[batting_players['Player'].isin(st.session_state.Player_chosen)]
@@ -55,12 +53,13 @@ def display_batting_chart(batting_players, batting_series):
         
         st.plotly_chart(fig)
 
-# Displays a scatter plot using Plotly Express based on the selected player's batting statistics.
+
 def display_scatter_chart(batting_players, title):
     fig = px.scatter(batting_players, x=st.session_state.xaxis, y=st.session_state.yaxis,
                      color=st.session_state.color, size=st.session_state.size,
                      hover_name="Player", title=title)
-    st.plotly_chart(
+    st.plotly_chart(fig)
+
     
 # Main code 
 st.title("Batting Stats!")
@@ -89,10 +88,10 @@ st.header("Some Noticeable Stats🏏")
 
 options = ['Span','Matches','Innings','Not Outs','Runs','Highest Score','Average Score','Strike Rate','Century', 'Half-Century','Zero Run Outs']
 
-xaxis = st.selectbox('X', options, key="xaxis", index=0)
-yaxis = st.selectbox('Y', options, key="yaxis", index=3)
-size = st.selectbox('Size', options, key="size", index=4)
-color = st.selectbox('Color', options, key="color", index=5)
+xaxis = st.selectbox('X', options, key="xaxis", index=4)
+yaxis = st.selectbox('Y', options, key="yaxis", index=2)
+size = st.selectbox('Size', options, key="size", index=5)
+color = st.selectbox('Color', options, key="color", index=6)
 
 display_scatter_chart(batting_players_odi, "ODI Matches")
 display_scatter_chart(batting_players_t20, "T20 Matches")
