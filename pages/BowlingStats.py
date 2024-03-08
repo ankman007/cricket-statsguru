@@ -73,7 +73,7 @@ if st.session_state.Bowling_series == 'ODI':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
-            fig1 = px.bar(chart_data.set_index('Player'))
+            fig1 = px.bar(chart_data.sort_values(by=f"{st.session_state.bowling_stats}" , ascending=False) ,x = "Player", y = f"{st.session_state.bowling_stats}")
             st.plotly_chart(fig1)
             # st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
             # st.dataframe(chart_data.set_index('Player') ,width=800)
@@ -91,7 +91,7 @@ if st.session_state.Bowling_series == 'T20':
                 'Player': filtered_players['Player'] , 
                 f'{st.session_state.bowling_stats}': filtered_players[st.session_state.bowling_stats]
             })
-            fig2 = px.bar(chart_data.set_index('Player'))
+            fig2 = px.bar(chart_data.sort_values(by=f"{st.session_state.bowling_stats}" , ascending=False), x ="Player" , y = f"{st.session_state.bowling_stats}")
             st.plotly_chart(fig2)
             # st.dataframe(chart_data.set_index('Player') , width=800)
             
@@ -129,10 +129,10 @@ color = st.selectbox(
 
 fig3 = px.scatter(bowling_players_odi , x= st.session_state.xaxis , y = st.session_state.yaxis ,
                  color = st.session_state.color  , size = st.session_state.size ,
-           hover_name="Player" , title="ODI Matches")
+           hover_name="Player" , title="ODI Stats")
 st.plotly_chart(fig3)
 
 fig4 = px.scatter(bowling_players_t20 , x= st.session_state.xaxis , y = st.session_state.yaxis ,
                  color = st.session_state.color  , size = st.session_state.size ,
-           hover_name="Player" , title="T20 Matches")
+           hover_name="Player" , title="T20 Stats")
 st.plotly_chart(fig4)

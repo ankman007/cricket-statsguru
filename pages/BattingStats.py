@@ -33,64 +33,33 @@ def display_batting_chart(batting_players, batting_series):
     if st.session_state.get('Batting_stats') is not None and st.session_state.get('Player_chosen'):
         filtered_players = batting_players[batting_players['Player'].isin(st.session_state.Player_chosen)]
 
-        chart_data = pd.DataFrame({
-            'Player': filtered_players['Player'],
-            f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
-        })
-        
-        chart_data_sorted = chart_data.sort_values(by=f'{st.session_state.Batting_stats}', ascending=True)
+            #creating dataframe to create chart 
+            chart_data = pd.DataFrame({
+                'Player': filtered_players['Player'] , 
+                f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
+            })
+           
+            fig1 = px.bar(chart_data.set_index('Player'))
+            st.plotly_chart(fig1)
+            # st.dataframe(chart_data.set_index('Player') , width= 800)
 
-        colors = ['#103f4e', '#0d5f6d']  
 
-        fig = px.bar(chart_data_sorted, 
-                     x='Player', 
-                     y=f'{st.session_state.Batting_stats}',
-                     color_discrete_sequence=colors)  
-        
-        fig.update_layout(
-            # {Batting Stat} Distribution Among Players in {Match Type} Matches
-            title=f"{st.session_state.Batting_stats} Distribution Among Players in {batting_series}",  # Title of the chart
-            yaxis_title=f"{st.session_state.Batting_stats}",
-            xaxis_title="Player's Name",
-            plot_bgcolor='white',  
-            font=dict(family="Arial", size=12, color="black"),
-            showlegend=False,  
-        )
-        
-        st.plotly_chart(fig)
 
-# Displays a scatter plot using Plotly Express based on the selected player's batting statistics.
-def display_scatter_chart(batting_players, title):
-    fig = px.scatter(batting_players, x=st.session_state.xaxis, y=st.session_state.yaxis,
-                     color=st.session_state.color, size=st.session_state.size,
-                     hover_name="Player", title=title)
-    st.plotly_chart(fig)
+#Doing the same for T20 too!
+if st.session_state.Batting_Series == 'T20':
+    if st.session_state.Batting_stats:
+        if st.session_state.Player_chosen:
+            filtered_players = batting_players_t20[batting_players_t20['Player'].isin(st.session_state.Player_chosen)]
 
-# Main code 
-st.title("Batting Stats!")
-batting_players_odi, batting_players_t20 = load_data()
-
-if 'Batting_stats' not in st.session_state:
-    st.session_state['Batting_stats'] = None
-
-if 'Player_chosen' not in st.session_state:
-    st.session_state['Player_chosen'] = []
-
-series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Batting_Series")
-stat_type = st.selectbox('Select Stats of Players', batting_players_odi.columns[2:], key="Batting_stats", index=4)
-
-available_players_odi = list(batting_players_odi['Player'])
-available_players_t20 = list(batting_players_t20['Player'])
-available_players = list(set(available_players_odi + available_players_t20))
-
-default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav']
-selected_players = st.multiselect('Select Players', available_players, default=default_players)
-st.session_state['Player_chosen'] = selected_players
-
-if series_type == 'ODI':
-    display_batting_chart(batting_players_odi, 'ODI')
-elif series_type == 'T20':
-    display_batting_chart(batting_players_t20, 'T20')
+            #creating dataframe to create chart 
+            chart_data = pd.DataFrame({
+                'Player': filtered_players['Player'] , 
+                f'{st.session_state.Batting_stats}': filtered_players[st.session_state.Batting_stats]
+            })
+            # st.bar_chart(chart_data.set_index('Player') , color="#f4a261")
+            fig2 = px.bar(chart_data.set_index('Player'))
+            st.plotly_chart(fig2)
+            # st.dataframe(chart_data.set_index('Player') , width= 800)
 
 st.header("Some Noticeable Stats🏏")
 
