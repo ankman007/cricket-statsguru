@@ -5,14 +5,15 @@ from DataProcessingModule import clean_dataframe
 import plotly.express as px
 import plotly.graph_objects as go
 
+@st.cache_data
 def load_data():
     batting_players_odi = pd.read_csv("data/batting_players_odi.csv")
     batting_players_t20 = pd.read_csv("data/batting_players_t20.csv")
     clean_dataframe(batting_players_odi)
     clean_dataframe(batting_players_t20)
     
-    batting_players_odi['Runs'] = batting_players_odi['Runs'].str.replace(r'\*', '', regex=True)
-    batting_players_t20['Runs'] = batting_players_t20['Runs'].str.replace(r'\*', '', regex=True)
+    batting_players_odi['Highest Score'] = batting_players_odi['Highest Score'].str.replace(r'\*', '', regex=True)
+    batting_players_t20['Highest Score'] = batting_players_t20['Highest Score'].str.replace(r'\*', '', regex=True)
 
     str_column = ['Span','Matches','Innings','Not Outs','Runs','Highest Score','Average Score','Strike Rate','Century',
     'Half-Century','Zero Run Outs']
