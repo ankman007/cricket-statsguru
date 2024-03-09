@@ -42,9 +42,7 @@ nepal_loss_by_year_t20 = nepal_loss_t20.groupby('Year').size().reset_index(name 
 nepal_odi_matches_results = pd.merge(nepal_loss_by_year_odi , nepal_wins_by_year_odi ,on='Year' , how='inner')
 nepal_t20_matches_results = pd.merge(nepal_loss_by_year_t20 , nepal_wins_by_year_t20 , on='Year' , how = 'inner')
 
-st.markdown("""
-    # This page is being build!⚒️
-""")
+
 st.markdown("""
     ### Matches Results by Nepal In ODI and T20 series till date.
 """)

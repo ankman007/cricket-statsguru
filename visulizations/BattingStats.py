@@ -78,26 +78,25 @@ def display_scatter_chart(batting_players, title, xaxis, yaxis, size, color):
 
 
 # Main code 
-def main():
+def display_batting_stats():
     batting_players_odi, batting_players_t20 = load_data()
-    with st.sidebar:
-        st.sidebar.subheader("Select Bar Chart Variables")
-        series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Batting_Series")
-        stat_type = st.selectbox('Select Stats of Players', batting_players_odi.columns[2:], key="Batting_stats", index=4)
-
-        available_players_odi = list(batting_players_odi['Player'])
-        available_players_t20 = list(batting_players_t20['Player'])
-
-        if "Player_chosen" not in st.session_state:
-            st.session_state["Player_chosen"] = []
-
-        available_players = list(set(available_players_odi + available_players_t20))
-        default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav', 'Kushal Malla', 'A Saud', 'Aarif Sheikh', 'S Lamichhane', 'P Khadka']
-        selected_players = st.multiselect('Select Players', available_players, default=default_players)
-
-        st.session_state.Player_chosen = selected_players
-
     st.header("Batting Performance Overview")
+
+    series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Batting_Series")
+    stat_type = st.selectbox('Select Stats of Players', batting_players_odi.columns[2:], key="Batting_stats", index=4)
+
+    available_players_odi = list(batting_players_odi['Player'])
+    available_players_t20 = list(batting_players_t20['Player'])
+
+    if "Player_chosen" not in st.session_state:
+        st.session_state["Player_chosen"] = []
+
+    available_players = list(set(available_players_odi + available_players_t20))
+    default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav', 'Kushal Malla', 'A Saud', 'Aarif Sheikh', 'S Lamichhane', 'P Khadka']
+    selected_players = st.multiselect('Select Players', available_players, default=default_players)
+
+    st.session_state.Player_chosen = selected_players
+
     if series_type == 'ODI':
         display_batting_chart(batting_players_odi, 'ODI')
     elif series_type == 'T20':
@@ -105,18 +104,16 @@ def main():
 
     options = ['Span','Matches','Innings','Not Outs','Runs','Highest Score','Average Score','Strike Rate','Century', 'Half-Century','Zero Run Outs']
 
-    with st.sidebar:
-        st.sidebar.subheader("Select Scatter Plot Variables")
-
-        xaxis = st.selectbox('X-Axis Variable', options, key="xaxis", index=4)
-        yaxis = st.selectbox('Y-Axis Variable', options, key="yaxis", index=2)
-        size = st.selectbox('Size ', options, key="size", index=5)
-        color = st.selectbox('Color', options, key="color", index=6)
-
     st.header("Multi Variable Scatter Plots ")
+
+    xaxis = st.selectbox('X-Axis Variable', options, key="xaxis", index=4)
+    yaxis = st.selectbox('Y-Axis Variable', options, key="yaxis", index=2)
+    size = st.selectbox('Size ', options, key="size", index=5)
+    color = st.selectbox('Color', options, key="color", index=6)
+
     display_scatter_chart(batting_players_odi, "ODI Matches", xaxis, yaxis, size, color)
     display_scatter_chart(batting_players_t20, "T20 Matches", xaxis, yaxis, size, color)
 
 
 if __name__ == "__main__":
-    main()
+    display_batting_stats()

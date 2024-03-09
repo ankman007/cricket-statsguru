@@ -42,7 +42,7 @@ def select_players(bowling_players_odi, bowling_players_t20):
         'Select Players', 
         my_union(bowling_players_odi['Player'], bowling_players_t20['Player']), 
         key="Player_chosen", 
-        default=['Sompal Kami', 'LN Rajbanshi', 'Karan KC', 'K Bhurtel', 'S Lamichhane', 'P Khadka', 'Aarif Sheikh', 'S Bhari', 'DS Airee']
+        # default=['Sompal Kami', 'LN Rajbanshi', 'Karan KC', 'K Bhurtel', 'S Lamichhane', 'P Khadka', 'Aarif Sheikh', 'S Bhari', 'DS Airee']
     )
 
 def display_bowling_chart(bowling_players, chart_title):
@@ -96,35 +96,34 @@ def display_scatter_chart(bowling_players, title, xaxis, yaxis, size, color):
 
     st.plotly_chart(fig)
 
-def main():
+def display_bowling_stats():
     bowling_players_odi, bowling_players_t20 = load_bowling_data()
     bowling_players_odi, bowling_players_t20 = set_column_names(bowling_players_odi, bowling_players_t20)
     bowling_players_odi, bowling_players_t20 = fill_null_values(bowling_players_odi, bowling_players_t20)
     
-    with st.sidebar:
-        st.sidebar.subheader("Select Bar Chart Variables")
-        series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Bowling_series")
-        stat_type = st.selectbox('Select Stat of Players', bowling_players_odi.columns[2:], key='bowling_stats', index=5)
-        players = select_players(bowling_players_odi, bowling_players_t20)
-    
     st.header("Bowling Performance Overview")
+
+    
+    series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Bowling_series")
+    stat_type = st.selectbox('Select Stat of Players', bowling_players_odi.columns[2:], key='bowling_stats', index=5)
+    players = select_players(bowling_players_odi, bowling_players_t20)
+    
     if st.session_state.Bowling_series == 'ODI':
         display_bowling_chart(bowling_players_odi, 'ODI')
     elif st.session_state.Bowling_series == 'T20':
         display_bowling_chart(bowling_players_t20, 'T20')
 
-    with st.sidebar:
-        options = ['Matches', 'Innings', 'Balls', 'Maidens', 'Runs Conceded', 'Wickets Taken', 'Bowling Average', 'Economy', 'Strike Rate']
-        st.sidebar.subheader("Select Scatter Plot Variables")
-        xaxis = st.selectbox('X Variable', options=options, key="xaxis", index=2)
-        yaxis = st.selectbox('Y Variable', options=options, key="yaxis", index=5)
-        size = st.selectbox('Size', options=options, key="size", index=7)
-        color = st.selectbox('Color', options=options, key="color", index=0)
-
     st.header("Multi Variable Scatter Plots ")
+    options = ['Matches', 'Innings', 'Balls', 'Maidens', 'Runs Conceded', 'Wickets Taken', 'Bowling Average', 'Economy', 'Strike Rate']
+
+    xaxis = st.selectbox('X Variable', options=options, key="x-axis", index=2)
+    yaxis = st.selectbox('Y Variable', options=options, key="y-axis", index=5)
+    size = st.selectbox('Size', options=options, key="size-1", index=7)
+    color = st.selectbox('Color', options=options, key="color-1", index=0)
+
     display_scatter_chart(bowling_players_odi, "ODI Matches", xaxis, yaxis, size, color)
     display_scatter_chart(bowling_players_t20, "T20 Matches", xaxis, yaxis, size, color)
 
 
 if __name__ == "__main__":
-    main()
+    display_bowling_stats()
