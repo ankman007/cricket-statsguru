@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from DataProcessingModule import clean_dataframe
 import plotly.express as px
+import plotly.graph_objects as go
 
 def load_data():
     batting_players_odi = pd.read_csv("data/batting_players_odi.csv")
@@ -25,6 +26,7 @@ def load_data():
     return batting_players_odi, batting_players_t20
 
 def display_batting_chart(batting_players, batting_series):
+    
     if st.session_state.Batting_stats and st.session_state.Player_chosen:
         filtered_players = batting_players[batting_players['Player'].isin(st.session_state.Player_chosen)]
 
@@ -43,55 +45,78 @@ def display_batting_chart(batting_players, batting_series):
                      color_discrete_sequence=colors)  
         
         fig.update_layout(
-            title=f"Batting High Scores in {batting_series} matches",  # Title of the chart
+            title=f"{st.session_state.Batting_stats} Distribution Among Players in {batting_series} matches",  
             yaxis_title=f"{st.session_state.Batting_stats}",
             xaxis_title="Player's Name",
             plot_bgcolor='white',  
             font=dict(family="Arial", size=12, color="black"),
-            showlegend=False,  
+            showlegend=False,
         )
         
         st.plotly_chart(fig)
 
+def display_scatter_chart(batting_players, title, xaxis, yaxis, size, color):
 
-def display_scatter_chart(batting_players, title):
-    fig = px.scatter(batting_players, x=st.session_state.xaxis, y=st.session_state.yaxis,
-                     color=st.session_state.color, size=st.session_state.size,
-                     hover_name="Player", title=title)
+    fig = px.scatter(
+        batting_players,
+        x=xaxis,
+        y=yaxis,
+        color=color,
+        size=size,
+        hover_name="Player",
+        title=title
+    )
+    
+    fig.update_xaxes(title_text=st.session_state.xaxis)
+    fig.update_yaxes(title_text=st.session_state.yaxis)
+    fig.update_layout(coloraxis_colorbar=dict(title=st.session_state.color))
+    fig.update_layout(legend=dict(title=st.session_state.size))
+    fig.update_traces(hoverinfo="text+name", text="Player")
+    fig.update_layout(title=f"For {title}: {st.session_state.xaxis} VS {st.session_state.yaxis} VS {st.session_state.color} VS {st.session_state.size}")
+
     st.plotly_chart(fig)
 
-    
+
 # Main code 
-st.title("Batting Stats!")
-batting_players_odi, batting_players_t20 = load_data()
-series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Batting_Series")
-stat_type = st.selectbox('Select Stats of Players', batting_players_odi.columns[2:], key="Batting_stats", index=4)
+def main():
+    batting_players_odi, batting_players_t20 = load_data()
+    with st.sidebar:
+        st.sidebar.subheader("Select Bar Chart Variables")
+        series_type = st.selectbox('Select Cricket Match Type', ('ODI', 'T20'), key="Batting_Series")
+        stat_type = st.selectbox('Select Stats of Players', batting_players_odi.columns[2:], key="Batting_stats", index=4)
 
-available_players_odi = list(batting_players_odi['Player'])
-available_players_t20 = list(batting_players_t20['Player'])
+        available_players_odi = list(batting_players_odi['Player'])
+        available_players_t20 = list(batting_players_t20['Player'])
 
-if "Player_chosen" not in st.session_state:
-    st.session_state["Player_chosen"] = []
+        if "Player_chosen" not in st.session_state:
+            st.session_state["Player_chosen"] = []
 
-available_players = list(set(available_players_odi + available_players_t20))
-default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav', 'Pratis GC', 'Kushal Malla', 'A Saud', 'JK Mukhiya', 'B Bhandari', 'D Nath']
-selected_players = st.multiselect('Select Players', available_players, default=default_players)
+        available_players = list(set(available_players_odi + available_players_t20))
+        default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav', 'Pratis GC', 'Kushal Malla', 'A Saud', 'JK Mukhiya', 'B Bhandari', 'D Nath']
+        selected_players = st.multiselect('Select Players', available_players, default=default_players)
 
-st.session_state.Player_chosen = selected_players
+        st.session_state.Player_chosen = selected_players
 
-if series_type == 'ODI':
-    display_batting_chart(batting_players_odi, 'ODI')
-elif series_type == 'T20':
-    display_batting_chart(batting_players_t20, 'T20')
+    st.header("Batting Performance Overview")
+    if series_type == 'ODI':
+        display_batting_chart(batting_players_odi, 'ODI')
+    elif series_type == 'T20':
+        display_batting_chart(batting_players_t20, 'T20')
 
-st.header("Some Noticeable Stats🏏")
+    options = ['Span','Matches','Innings','Not Outs','Runs','Highest Score','Average Score','Strike Rate','Century', 'Half-Century','Zero Run Outs']
 
-options = ['Span','Matches','Innings','Not Outs','Runs','Highest Score','Average Score','Strike Rate','Century', 'Half-Century','Zero Run Outs']
+    with st.sidebar:
+        st.sidebar.subheader("Select Scatter Plot Variables")
 
-xaxis = st.selectbox('X', options, key="xaxis", index=4)
-yaxis = st.selectbox('Y', options, key="yaxis", index=2)
-size = st.selectbox('Size', options, key="size", index=5)
-color = st.selectbox('Color', options, key="color", index=6)
+        xaxis = st.selectbox('X Axis:', options, key="xaxis", index=4)
+        yaxis = st.selectbox('Y Axis:', options, key="yaxis", index=2)
+        size = st.selectbox('Size:', options, key="size", index=5)
+        color = st.selectbox('Color:', options, key="color", index=6)
 
-display_scatter_chart(batting_players_odi, "ODI Matches")
-display_scatter_chart(batting_players_t20, "T20 Matches")
+    st.header("Multi Variable Scatter Plots ")
+    display_scatter_chart(batting_players_odi, "ODI Matches", xaxis, yaxis, size, color)
+    display_scatter_chart(batting_players_t20, "T20 Matches", xaxis, yaxis, size, color)
+
+
+if __name__ == "__main__":
+    main()
