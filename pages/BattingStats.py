@@ -92,7 +92,7 @@ def main():
             st.session_state["Player_chosen"] = []
 
         available_players = list(set(available_players_odi + available_players_t20))
-        default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav', 'Pratis GC', 'Kushal Malla', 'A Saud', 'JK Mukhiya', 'B Bhandari', 'D Nath']
+        default_players = ['Karan KC', 'RK Paudel', 'DS Airee', 'K Bhurtel', 'B Yadav', 'Kushal Malla', 'A Saud', 'Aarif Sheikh', 'S Lamichhane', 'P Khadka']
         selected_players = st.multiselect('Select Players', available_players, default=default_players)
 
         st.session_state.Player_chosen = selected_players
@@ -108,10 +108,10 @@ def main():
     with st.sidebar:
         st.sidebar.subheader("Select Scatter Plot Variables")
 
-        xaxis = st.selectbox('X Axis:', options, key="xaxis", index=4)
-        yaxis = st.selectbox('Y Axis:', options, key="yaxis", index=2)
-        size = st.selectbox('Size:', options, key="size", index=5)
-        color = st.selectbox('Color:', options, key="color", index=6)
+        xaxis = st.selectbox('X-Axis Variable', options, key="xaxis", index=4)
+        yaxis = st.selectbox('Y-Axis Variable', options, key="yaxis", index=2)
+        size = st.selectbox('Size ', options, key="size", index=5)
+        color = st.selectbox('Color', options, key="color", index=6)
 
     st.header("Multi Variable Scatter Plots ")
     display_scatter_chart(batting_players_odi, "ODI Matches", xaxis, yaxis, size, color)
