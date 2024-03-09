@@ -3,9 +3,16 @@ import requests
 from PIL import Image
 from io import BytesIO
 
+st.set_page_config(
+    page_title="News and Updates",
+    page_icon="📰",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 NEWS_API_KEY = '80a5ed8efc4a49c89d7efabe130d0716'
 NEWS_API_ENDPOINT = 'https://newsapi.org/v2/everything'
 
+@st.cache_data
 def check_image_availability(image_url):
     try:
         response = requests.head(image_url)
@@ -21,7 +28,7 @@ def check_image_availability(image_url):
     except Exception as e:
         st.error(f"Error: {e}")
     return False
-
+@st.cache_data
 def fetch_cricket_articles(news_category):
     count = 0
     params = {

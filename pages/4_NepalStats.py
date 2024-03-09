@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+st.set_page_config(
+    page_title="Nepal's Stats",
+    page_icon="💖",
+    layout="centered",
+    initial_sidebar_state="expanded",
+)
+
 # Function to load data and preprocess
 @st.cache_data
 def load_data(url):
