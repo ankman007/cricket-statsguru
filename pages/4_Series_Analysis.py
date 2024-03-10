@@ -3,8 +3,8 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(
-    page_title="Nepal's Stats",
-    # page_icon="💖",
+    page_title="Series Analysis",
+    page_icon="⚾",
     layout="centered",
     initial_sidebar_state="expanded",
 )
