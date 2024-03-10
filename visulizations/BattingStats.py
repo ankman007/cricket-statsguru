@@ -112,8 +112,8 @@ def display_batting_stats():
     size = st.selectbox('Size ', options, key="size", index=5)
     color = st.selectbox('Color', options, key="color", index=6)
 
-    display_scatter_chart(batting_players_odi, "ODI Matches", xaxis, yaxis, size, color)
-    display_scatter_chart(batting_players_t20, "T20 Matches", xaxis, yaxis, size, color)
+    display_scatter_chart(batting_players_odi, "ODI Matches", st.session_state.xaxis, st.session_state.yaxis, st.session_state.size, st.session_state.color)
+    display_scatter_chart(batting_players_t20, "T20 Matches", st.session_state.xaxis, st.session_state.yaxis, st.session_state.size, st.session_state.color)
 
 
 if __name__ == "__main__":

@@ -88,10 +88,10 @@ def display_scatter_chart(bowling_players, title, xaxis, yaxis, size, color):
         title=title
     )
     
-    fig.update_xaxes(title_text=st.session_state.xaxis)
-    fig.update_yaxes(title_text=st.session_state.yaxis)
-    fig.update_layout(coloraxis_colorbar=dict(title=st.session_state.color))
-    fig.update_layout(legend=dict(title=st.session_state.size))
+    fig.update_xaxes(title_text=st.session_state.x_axis)
+    fig.update_yaxes(title_text=st.session_state.y_axis)
+    fig.update_layout(coloraxis_colorbar=dict(title=st.session_state.color_1))
+    fig.update_layout(legend=dict(title=st.session_state.size_1))
     fig.update_traces(hoverinfo="text+name", text="Player")
     fig.update_layout(title=f"For {title}: {st.session_state.xaxis} VS {st.session_state.yaxis} VS {st.session_state.color} VS {st.session_state.size}")
 
@@ -117,13 +117,13 @@ def display_bowling_stats():
     st.header("Multi Variable Scatter Plots ")
     options = ['Matches', 'Innings', 'Balls', 'Maidens', 'Runs Conceded', 'Wickets Taken', 'Bowling Average', 'Economy', 'Strike Rate']
 
-    xaxis = st.selectbox('X Variable', options=options, key="x-axis", index=2)
-    yaxis = st.selectbox('Y Variable', options=options, key="y-axis", index=5)
-    size = st.selectbox('Size', options=options, key="size-1", index=7)
-    color = st.selectbox('Color', options=options, key="color-1", index=0)
+    xaxis = st.selectbox('X Variable', options=options, key="x_axis", index=2)
+    yaxis = st.selectbox('Y Variable', options=options, key="y_axis", index=5)
+    size = st.selectbox('Size', options=options, key="size_1", index=7)
+    color = st.selectbox('Color', options=options, key="color_1", index=0)
 
-    display_scatter_chart(bowling_players_odi, "ODI Matches", xaxis, yaxis, size, color)
-    display_scatter_chart(bowling_players_t20, "T20 Matches", xaxis, yaxis, size, color)
+    display_scatter_chart(bowling_players_odi, "ODI Matches", st.session_state.x_axis, st.session_state.y_axis, st.session_state.size_1, st.session_state.color_1)
+    display_scatter_chart(bowling_players_t20, "T20 Matches", st.session_state.x_axis, st.session_state.y_axis, st.session_state.size_1, st.session_state.color_1)
 
 
 if __name__ == "__main__":
