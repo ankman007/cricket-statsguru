@@ -93,7 +93,7 @@ def display_scatter_chart(bowling_players, title, xaxis, yaxis, size, color):
     fig.update_layout(coloraxis_colorbar=dict(title=st.session_state.color_1))
     fig.update_layout(legend=dict(title=st.session_state.size_1))
     fig.update_traces(hoverinfo="text+name", text="Player")
-    fig.update_layout(title=f"For {title}: {st.session_state.xaxis} VS {st.session_state.yaxis} VS {st.session_state.color} VS {st.session_state.size}")
+    fig.update_layout(title=f"For {title}: {st.session_state.x_axis} VS {st.session_state.y_axis} VS {st.session_state.color_1} VS {st.session_state.size_1}")
 
     st.plotly_chart(fig)
 
