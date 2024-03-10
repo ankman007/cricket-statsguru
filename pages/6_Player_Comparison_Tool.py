@@ -1,74 +1,73 @@
-import streamlit as st 
-import pandas as pd 
-import plotly.express as px 
-from visulizations import BattingStats , BowlingStats #Using the modules! Mainly for loading data
+import streamlit as st
+from visulizations import BattingStats, BowlingStats
 
-#Setting up page configurations
 st.set_page_config(
     page_title="Player Comparison Tool",
     page_icon="🆚",
     layout="wide",
-    initial_sidebar_state="collapsed",
 )
-#loading data
-batting_players_odi  , batting_players_t20 = BattingStats.load_data()
-bowling_players_odi, bowling_players_t20 = BowlingStats.load_bowling_data()
-bowling_players_odi, bowling_players_t20 = BowlingStats.set_column_names(bowling_players_odi, bowling_players_t20)
-bowling_players_odi, bowling_players_t20 = BowlingStats.fill_null_values(bowling_players_odi, bowling_players_t20)
 
-def creatingSelectbox():
-    column_1 , column_2 , column_3 = st.columns([4,1,4])
-    with column_1:
-        player_1  = st.selectbox(
-            "Select a player" , 
-            BowlingStats.my_union(batting_players_odi["Player"] , batting_players_t20["Player"]) , 
-            key="player1" , 
-            index = BowlingStats.my_union(batting_players_odi["Player"] , batting_players_t20["Player"]).index("K Bhurtel")
-        )
-    with column_2:
-      st.markdown("# .VS")
+# Loading data
+def load_cricket_data():
+    batting_players_odi, batting_players_t20 = BattingStats.load_data()
+    bowling_players_odi, bowling_players_t20 = BowlingStats.load_bowling_data()
+    bowling_players_odi, bowling_players_t20 = BowlingStats.set_column_names(bowling_players_odi, bowling_players_t20)
+    bowling_players_odi, bowling_players_t20 = BowlingStats.fill_null_values(bowling_players_odi, bowling_players_t20)
+    return batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20
 
-    with column_3:
-        player_2 = st.selectbox(
-            "Select a player" , 
-            BowlingStats.my_union(batting_players_odi["Player"] , batting_players_t20["Player"]) , 
-            key="player2" , 
-            index= BowlingStats.my_union(batting_players_odi["Player"] , batting_players_t20["Player"]).index("RK Paudel")
-        )
-   
-def showing_Data(): #showing data through table
-    column_1 , column_2 , column_3 , column_4 = st.columns(4)
-    
-    with column_1 :
-        st.header("Batting ODI")
-        st.markdown(f"{st.session_state.player1} vs {st.session_state.player2} ")
-        df1 = batting_players_odi[(batting_players_odi["Player"] == st.session_state.player1) | (batting_players_odi['Player'] == st.session_state.player2)].set_index("Player").drop(["Span"] , axis = 1)
-        st.dataframe(df1.T)
+# Create user options
+def user_options(player_options):
+    match_type_options = ["ODI", "T20"]  # Removed "Overall Statistics"
+    rating_type_options = ["Batting", "Bowling"]
+    default_players = ["K Bhurtel", "RK Paudel", 'Sompal Kami', 'S Bhari', 'Aasif Sheikh', 'KS Airee']
+    with st.sidebar: 
+        select_match_type = st.selectbox("Select Match Type", match_type_options)
+        select_rating_type = st.selectbox("Choose Rating Type", rating_type_options)
+    select_players = st.multiselect("Select Players To Compare", player_options, default_players, key="players")
 
-    with column_2 :
-        st.header("Batting T20")
-        st.markdown(f"{st.session_state.player1} vs {st.session_state.player2} ")
-        df2 = batting_players_t20[(batting_players_t20["Player"] == st.session_state.player1) | (batting_players_t20['Player'] == st.session_state.player2)].set_index("Player").drop(["Span"] , axis = 1)
-        st.dataframe(df2.T)
+    return select_players, select_match_type, select_rating_type
 
-    with column_3 :
-        st.header("Bowling ODI")
-        st.markdown(f"{st.session_state.player1} vs {st.session_state.player2} ")
-        df3 = bowling_players_odi[(bowling_players_odi["Player"] == st.session_state.player1) | (bowling_players_odi['Player'] == st.session_state.player2)].set_index("Player").drop(["Span" , "Best Inning Bowling"] , axis = 1)
-        st.dataframe(df3.T)
+def player_overview():
+    st.markdown(f"<h3>Basic Overview</h3>", unsafe_allow_html=True)
+    st.write("contains age, batting style, bowling style, district, playing role & so on")
 
-    with column_4 :
-        st.header("Bowling T20")
-        st.markdown(f"{st.session_state.player1} vs {st.session_state.player2} ")
-        df4 = bowling_players_t20[(bowling_players_t20["Player"] == st.session_state.player1) | (bowling_players_t20['Player'] == st.session_state.player2)].set_index("Player").drop(["Span" , "Best Inning Bowling"] , axis = 1)
-        st.dataframe(df4.T)
+# Display batting and bowling stats for selected players
+def show_data(batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20, selected_players, match_type, rating_type):
 
+    st.markdown(f"<h3>{rating_type} Statistics Comparision Between Players In {match_type} Matches</h3>", unsafe_allow_html=True)
 
+    df = batting_players_odi if rating_type == 'Batting' else bowling_players_odi
+    df = df if match_type == 'ODI' else (batting_players_t20 if rating_type == 'Batting' else bowling_players_t20)
 
-#main code
+    stats_df = df[df["Player"].isin(selected_players)].set_index("Player").drop(["Span", "Best Inning Bowling"] if rating_type == 'Bowling' else ["Span"], axis=1)
+    stats_df = stats_df.applymap(lambda x: int(x) if isinstance(x, (int, float)) else x)
+    st.write(stats_df.T)
+
+def multi_player_comparison():
+    batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20 = load_cricket_data()
+    player_options = BowlingStats.my_union(batting_players_odi["Player"], batting_players_t20["Player"])
+    selected_players, match_type, rating_type = user_options(player_options)
+
+    if selected_players:
+        player_overview()
+        show_data(batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20, selected_players, match_type, rating_type)
+
+def one_on_one_comparision():
+    pass
+
 def main():
-    creatingSelectbox()
-    showing_Data()
+    st.markdown("<h1 style='text-align: center; color: black;'>Compare Cricketers: Batting, Bowling, Head-to-Head Records & Statistics</h1>", unsafe_allow_html=True)
+
+    tab_titles = [
+        "One-on-One Comparison",
+        "Multi-player Comparison",
+    ]
+    tabs = st.tabs(tab_titles)
+
+    with tabs[0]:
+        one_on_one_comparision()
+    with tabs[1]:
+        multi_player_comparison()
 
 if __name__ == "__main__":
     main()

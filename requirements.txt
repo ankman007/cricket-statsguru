@@ -1,1 +1,4 @@
 plotly
+requests
+streamlit
+beautifulsoup4

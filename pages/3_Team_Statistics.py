@@ -6,7 +6,6 @@ st.set_page_config(
     page_title="Team Statistics",
     page_icon="📊",
     layout="centered",
-    initial_sidebar_state="collapsed",
 )
 def main():
     tab_titles = [
