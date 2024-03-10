@@ -22,3 +22,9 @@ def main():
 if __name__ == "__main__":
     main()
 
+# TO-DOs 
+# Highest Scores of batting & bowling 
+# Collect data of individual player
+# Series Analysis, default values, top section to bottom 
+# Find stories behind the data
+# complete section for 3: player profile, tornament tracker, player comparision tool

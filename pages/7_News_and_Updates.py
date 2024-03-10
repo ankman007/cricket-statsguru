@@ -35,7 +35,6 @@ def fetch_cricket_articles(news_category):
     params = {
         'apiKey': NEWS_API_KEY,
         'q': news_category,
-        'language': 'en',
     }
 
     response = requests.get(NEWS_API_ENDPOINT, params=params)
