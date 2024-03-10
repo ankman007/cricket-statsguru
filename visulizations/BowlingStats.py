@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 from DataProcessingModule import clean_dataframe
 
+@st.cache_data
 def load_bowling_data():
     bowling_players_odi = pd.read_csv("data/bowling_players_odi.csv")
     bowling_players_t20 = pd.read_csv("data/bowling_players_t20.csv")

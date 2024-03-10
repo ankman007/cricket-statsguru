@@ -2,6 +2,11 @@ import streamlit as st
 from visulizations.BattingStats import display_batting_stats
 from visulizations.BowlingStats import display_bowling_stats
 
+st.set_page_config(
+    page_title="Team Statistics",
+    page_icon="📊",
+    layout="centered",
+)
 def main():
     tab_titles = [
         "Batting Statistics",
