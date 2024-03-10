@@ -2,12 +2,13 @@ import streamlit as st
 import requests
 from PIL import Image
 from io import BytesIO
+from datetime import datetime
 
 st.set_page_config(
     page_title="News and Updates",
     page_icon="📰",
-    layout="wide",
-    # initial_sidebar_state="collapsed",
+    layout="centered",
+    initial_sidebar_state="expanded",
 )
 NEWS_API_KEY = '80a5ed8efc4a49c89d7efabe130d0716'
 NEWS_API_ENDPOINT = 'https://newsapi.org/v2/everything'
@@ -44,13 +45,13 @@ def fetch_cricket_articles(news_category):
         articles = data['articles']
 
         for article in articles:
-            if count >= 30:
+            if count >= 50:
                     break
             count += 1
             if news_category == 'cricket nepal' and 'Nepal' not in article['title']:
                 continue
-            if news_category == 'cricket news' and 'cricket' not in article['title']:
-                continue
+            # if news_category == 'cricket news' and 'cricket' not in article['title']:
+            #     continue
             with st.container(border=True):
                 title_html = f"<a href='{article['url']}' target='_blank' style='text-decoration: none; color: black;'>{article['title']}</a>"
                 st.markdown(f"## {title_html}", unsafe_allow_html=True)    
@@ -64,8 +65,14 @@ def fetch_cricket_articles(news_category):
                 else:
                     st.write("No image available")
                 
-                st.write(article['description'])
-                st.write("---")
+                datetime_string = article['publishedAt']
+                datetime_object = datetime.strptime(datetime_string, "%Y-%m-%dT%H:%M:%SZ")
+                formatted_date = datetime_object.strftime("%b %d, %Y")
+
+                st.markdown(f"**Source:** {article['source']['name']} | **Published Date:** {formatted_date}")
+                st.markdown(f"*{article['description']}*")
+                st.markdown("---")
+
     else:
         st.error('Failed to fetch cricket articles')
 

@@ -1,9 +1,9 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Home Page",
-    page_icon="🏡",
-    layout="wide",
+    page_title="Cricket StatsGuru",
+    page_icon="💥",
+    layout="centered",
     initial_sidebar_state="expanded",
 )
 # Page title and description
