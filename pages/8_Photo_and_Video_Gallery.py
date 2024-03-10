@@ -36,6 +36,7 @@ def fetch_images():
             col.image(os.path.join(image_dir, image_file), caption=filename)
 
 def main():
+    st.header('Scenes from Nepali Cricket: A Visual Odyssey')
     tab_titles = [
         "Photos",
         "Videos",
