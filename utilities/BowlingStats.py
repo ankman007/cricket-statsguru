@@ -6,8 +6,8 @@ from analytics.DataProcessingModule import clean_dataframe
 
 @st.cache_data
 def load_bowling_data():
-    bowling_players_odi = pd.read_csv("data/bowling_players_odi.csv")
-    bowling_players_t20 = pd.read_csv("data/bowling_players_t20.csv")
+    bowling_players_odi = pd.read_csv("resources/bowling_players_odi.csv")
+    bowling_players_t20 = pd.read_csv("resources/bowling_players_t20.csv")
     clean_dataframe(bowling_players_odi)
     clean_dataframe(bowling_players_t20)
     return bowling_players_odi, bowling_players_t20
