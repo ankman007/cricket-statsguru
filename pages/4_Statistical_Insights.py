@@ -160,8 +160,8 @@ def main():
     tabs = st.tabs(tab_titles)
 
     
-    odi_data_url = 'data/nepal_odi_stats.csv'
-    t20_data_url = 'data/nepal_t20_stats.csv'
+    odi_data_url = 'resources/nepal_odi_stats.csv'
+    t20_data_url = 'resources/nepal_t20_stats.csv'
     df_odi = load_data(odi_data_url)
     df_t20 = load_data(t20_data_url)
     nepal_wins_odi, nepal_loss_odi = filter_data(df_odi)

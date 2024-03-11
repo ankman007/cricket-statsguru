@@ -6,11 +6,9 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="expanded",
 )
-# Page title and description
 st.markdown("# Cricket StatsGuru 🏏")
 st.markdown("Discover the prowess of Nepali cricketers and delve into the captivating world of Nepalese cricket!")
 
-# Features section
 st.markdown("## Features 🌟")
 st.markdown("- Visualize the performance of your favorite Nepali cricketers side by side to compare their achievements.")
 st.markdown("- Explore in-depth batting and bowling statistics to uncover the secrets behind their success.")
@@ -18,7 +16,6 @@ st.markdown("- Immerse yourself in the overall journey of the Nepali cricket tea
 st.markdown("- Get historical insights into the evolution of Nepali cricket with an archive of past records and achievements.")
 st.markdown("- Engage with interactive charts and graphs, making statistical analysis both informative and enjoyable.")
 
-# Sections overview
 st.markdown("## Sections 📊")
 st.markdown("- **Player Profile**: Get insights into individual players' achievements, records, and milestones.")
 st.markdown("- **Team Statistics**: Dive into comprehensive statistics showcasing the team's performance over time.")

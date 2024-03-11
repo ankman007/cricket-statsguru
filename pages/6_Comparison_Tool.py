@@ -1,5 +1,5 @@
 import streamlit as st
-from visulizations import BattingStats, BowlingStats
+from utilities import BattingStats, BowlingStats
 
 st.set_page_config(
     page_title="Comparison Tool",
