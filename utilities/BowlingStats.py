@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-from DataProcessingModule import clean_dataframe
+from analytics.DataProcessingModule import clean_dataframe
 
 @st.cache_data
 def load_bowling_data():

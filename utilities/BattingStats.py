@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from DataProcessingModule import clean_dataframe
+from analytics.DataProcessingModule import clean_dataframe
 import plotly.express as px
 import plotly.graph_objects as go
 
