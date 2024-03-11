@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 def fetch_videos():
-    df = pd.read_csv('data/youtube_links.csv')
+    df = pd.read_csv('resources/youtube_links.csv')
     df = df.sample(frac=1).reset_index(drop=True)
     max_chars = 200
     for index, row in df.iterrows():
