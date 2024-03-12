@@ -64,7 +64,8 @@ def create_selectbox(series_1 , series_2):
         player_1 = st.selectbox(
             "Select a player" , 
             BowlingStats.my_union(series_1["Player"], series_2["Player"]) , 
-            key="Player_1"
+            key="Player_1" , 
+            index = BowlingStats.my_union(series_1["Player"], series_2["Player"]).index("RK Paudel")
             )
     # with column_2:
     #     st.header("🆚")
@@ -73,7 +74,8 @@ def create_selectbox(series_1 , series_2):
         player_2 = st.selectbox(
             "Select a player" , 
             BowlingStats.my_union(series_1["Player"], series_2["Player"]) , 
-            key="Player_2")
+            key="Player_2" , 
+            index = BowlingStats.my_union(series_1["Player"], series_2["Player"]).index("Karan KC"))
 @st.cache_data
 def loading_info_data():
     df = pd.read_csv("resources/PlayersInfo.csv")
@@ -82,8 +84,13 @@ def showing_info():
     data = loading_info_data()
     column1 , column2 = st.columns(2)
     with column1: 
+        try: 
+            age = int(data[data['Name'] == st.session_state.Player_1]['Age'].iloc[0])
+        except:
+            age = "Unknown"
+
         st.image(data[data['Name'] == st.session_state.Player_1]['Photo'].iloc[0] , width=250)
-        st.markdown(f" **Age:** {int(data[data['Name'] == st.session_state.Player_1]['Age'].iloc[0])}")
+        st.markdown(f" **Age:** {age}")
         st.markdown(f" **Batting Style:** {data[data['Name'] == st.session_state.Player_1]['Batting Style'].iloc[0]}")
         st.markdown(f" **Bowling Style:** {data[data['Name'] == st.session_state.Player_1]['Bowling Style'].iloc[0]}")
         st.markdown(f" **Playing Order:** {data[data['Name'] == st.session_state.Player_1]['Playing Order'].iloc[0]}")
