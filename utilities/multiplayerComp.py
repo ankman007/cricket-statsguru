@@ -18,9 +18,9 @@ def user_options(player_options):
     match_type_options = ["ODI", "T20"]  # Removed "Overall Statistics"
     rating_type_options = ["Batting", "Bowling"]
     default_players = ["K Bhurtel", "RK Paudel", 'Sompal Kami', 'S Bhari', 'Aasif Sheikh', 'KS Airee']
-    with st.sidebar: 
-        select_match_type = st.selectbox("Select Match Type", match_type_options , key = "match_type")
-        select_rating_type = st.selectbox("Choose Rating Type", rating_type_options , key= "rating_type")
+    
+    select_match_type = st.sidebar.selectbox("Select Match Type", match_type_options , key = "match_type")
+    select_rating_type = st.sidebar.selectbox("Choose Rating Type", rating_type_options , key= "rating_type")
     select_players = st.multiselect("Select Players To Compare", player_options, default_players, key="players")
 
     return select_players, select_match_type, select_rating_type

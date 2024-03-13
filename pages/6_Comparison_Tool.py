@@ -10,8 +10,12 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 
 )
+match_type_options = ["ODI", "T20"]  # Removed "Overall Statistics"
+rating_type_options = ["Batting", "Bowling"]
+default_players = ["K Bhurtel", "RK Paudel", 'Sompal Kami', 'S Bhari', 'Aasif Sheikh', 'KS Airee']
 
-
+select_match_type = st.sidebar.selectbox("Select Match Type", match_type_options , key = "match_type")
+select_rating_type = st.sidebar.selectbox("Choose Rating Type", rating_type_options , key= "rating_type")
 def main():
     st.markdown("<h1 style='text-align: center; color: black;'>Compare Cricketers: Batting, Bowling, Head-to-Head Records & Statistics</h1>", unsafe_allow_html=True)
 
