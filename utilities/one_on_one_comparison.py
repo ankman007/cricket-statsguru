@@ -31,7 +31,7 @@ def create_selectbox(series):
             index = list(series).index("Karan KC"))
 @st.cache_data
 def loading_info_data():
-    df = pd.read_csv("resources/PlayersInfo.csv")
+    df = pd.read_csv("resources/players_info.csv")
     return df       
 def showing_info():
     data = loading_info_data()
