@@ -1,15 +1,15 @@
 import streamlit as st
-from utilities import BattingStats, BowlingStats
+from utilities import batting_stats, bowling_stats
 import pandas as pd
 import plotly.express as px
 
 
 # Loading data
 def load_cricket_data():
-    batting_players_odi, batting_players_t20 = BattingStats.load_data()
-    bowling_players_odi, bowling_players_t20 = BowlingStats.load_bowling_data()
-    bowling_players_odi, bowling_players_t20 = BowlingStats.set_column_names(bowling_players_odi, bowling_players_t20)
-    bowling_players_odi, bowling_players_t20 = BowlingStats.fill_null_values(bowling_players_odi, bowling_players_t20)
+    batting_players_odi, batting_players_t20 = batting_stats.load_data()
+    bowling_players_odi, bowling_players_t20 = bowling_stats.load_bowling_data()
+    bowling_players_odi, bowling_players_t20 = bowling_stats.set_column_names(bowling_players_odi, bowling_players_t20)
+    bowling_players_odi, bowling_players_t20 = bowling_stats.fill_null_values(bowling_players_odi, bowling_players_t20)
     return batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20
 
 def create_selectbox(series):

@@ -1,6 +1,6 @@
 import streamlit as st
-from utilities.BattingStats import display_batting_stats
-from utilities.BowlingStats import display_bowling_stats
+from utilities.batting_stats import display_batting_stats
+from utilities.bowling_stats import display_bowling_stats
 
 st.set_page_config(
     page_title="Team Statistics",
