@@ -19,11 +19,10 @@ def user_options(player_options):
     rating_type_options = ["Batting", "Bowling"]
     default_players = ["K Bhurtel", "RK Paudel", 'Sompal Kami', 'S Bhari', 'Aasif Sheikh', 'KS Airee']
     
-    select_match_type = st.sidebar.selectbox("Select Match Type", match_type_options , key = "match_type")
-    select_rating_type = st.sidebar.selectbox("Choose Rating Type", rating_type_options , key= "rating_type")
+    
     select_players = st.multiselect("Select Players To Compare", player_options, default_players, key="players")
 
-    return select_players, select_match_type, select_rating_type
+    return select_players
 
 def player_overview():
     st.markdown(f"<h3>Basic Overview</h3>", unsafe_allow_html=True)
@@ -44,7 +43,9 @@ def show_data(batting_players_odi, batting_players_t20, bowling_players_odi, bow
 def multi_player_comparison():
     batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20 = load_cricket_data()
     player_options = BowlingStats.my_union(batting_players_odi["Player"], batting_players_t20["Player"])
-    selected_players, match_type, rating_type = user_options(player_options)
+    selected_players= user_options(player_options)
+    match_type = st.session_state.match_type
+    rating_type = st.session_state.rating_type
 
     if selected_players:
         player_overview()
