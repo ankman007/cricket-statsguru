@@ -155,7 +155,7 @@ def main():
     tab_titles = [
         'Series Overview',
         'Nepal Vs World',
-        'Gorund Performance Analysis',
+        'Ground Performance Analysis',
     ]
     tabs = st.tabs(tab_titles)
 
