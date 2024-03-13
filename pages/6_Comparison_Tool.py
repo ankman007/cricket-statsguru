@@ -1,5 +1,5 @@
 import streamlit as st
-from utilities import BattingStats, BowlingStats , multiplayerComp , oneOnonecomp
+from utilities import multiplayer_comparison , one_on_one_comparison
 import pandas as pd
 import plotly.express as px
 
@@ -13,7 +13,6 @@ st.set_page_config(
 match_type_options = ["ODI", "T20"]  # Removed "Overall Statistics"
 rating_type_options = ["Batting", "Bowling"]
 default_players = ["K Bhurtel", "RK Paudel", 'Sompal Kami', 'S Bhari', 'Aasif Sheikh', 'KS Airee']
-
 select_match_type = st.sidebar.selectbox("Select Match Type", match_type_options , key = "match_type")
 select_rating_type = st.sidebar.selectbox("Choose Rating Type", rating_type_options , key= "rating_type")
 def main():
@@ -26,9 +25,9 @@ def main():
     tabs = st.tabs(tab_titles)
 
     with tabs[0]:
-        oneOnonecomp.one_on_one_comparision()
+        one_on_one_comparison.one_on_one_comparision()
     with tabs[1]:
-        multiplayerComp.multi_player_comparison()
+        multiplayer_comparison.multi_player_comparison()
 
 if __name__ == "__main__":
     main()
