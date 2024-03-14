@@ -4,6 +4,7 @@ import numpy as np
 from analytics.data_processing_module import clean_dataframe
 import plotly.express as px
 import plotly.graph_objects as go
+from utilities import expander
 
 @st.cache_data
 def load_data():
@@ -55,6 +56,8 @@ def display_batting_chart(batting_players, batting_series):
         )
         
         st.plotly_chart(fig)
+        expander.add_explanation_expander()
+
 
 def display_scatter_chart(batting_players, title, xaxis, yaxis, size, color):
 
@@ -76,6 +79,8 @@ def display_scatter_chart(batting_players, title, xaxis, yaxis, size, color):
     fig.update_layout(title=f"For {title}: {st.session_state.xaxis} VS {st.session_state.yaxis} VS {st.session_state.color} VS {st.session_state.size}")
 
     st.plotly_chart(fig)
+    expander.add_explanation_expander()
+
 
 
 # Main code 
@@ -103,6 +108,8 @@ def display_batting_stats():
     elif series_type == 'T20':
         display_batting_chart(batting_players_t20, 'T20')
 
+    st.markdown("<hr>", unsafe_allow_html=True)
+
     options = ['Span','Matches','Innings','Not Outs','Runs','Highest Score','Average Score','Strike Rate','Century', 'Half-Century','Zero Run Outs']
 
     st.header("Multi Variable Scatter Plots ")
@@ -113,6 +120,7 @@ def display_batting_stats():
     color = st.selectbox('Color', options, key="color", index=6)
 
     display_scatter_chart(batting_players_odi, "ODI Matches", st.session_state.xaxis, st.session_state.yaxis, st.session_state.size, st.session_state.color)
+
     display_scatter_chart(batting_players_t20, "T20 Matches", st.session_state.xaxis, st.session_state.yaxis, st.session_state.size, st.session_state.color)
 
 

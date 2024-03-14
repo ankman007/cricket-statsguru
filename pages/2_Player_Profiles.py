@@ -1,6 +1,7 @@
 import streamlit as st
-from utilities import batting_stats, bowling_stats
 import pandas as pd  
+from utilities import batting_stats, bowling_stats
+
 
 st.set_page_config(
     page_title="Player Profiles",

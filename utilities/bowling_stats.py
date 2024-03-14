@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 from analytics.data_processing_module import clean_dataframe
+from utilities import expander
 
 @st.cache_data
 def load_bowling_data():
@@ -11,7 +12,6 @@ def load_bowling_data():
     clean_dataframe(bowling_players_odi)
     clean_dataframe(bowling_players_t20)
     return bowling_players_odi, bowling_players_t20
-
 
 
 def set_column_names(bowling_players_odi, bowling_players_t20):
@@ -74,6 +74,8 @@ def display_bowling_chart(bowling_players, chart_title):
         )
         
         st.plotly_chart(fig, use_container_width=True)
+        expander.add_explanation_expander()
+
         # title=f"{st.session_state.Batting_stats} Distribution Among Players in {batting_series} matches",  
 
 def display_scatter_chart(bowling_players, title, xaxis, yaxis, size, color):
@@ -96,6 +98,7 @@ def display_scatter_chart(bowling_players, title, xaxis, yaxis, size, color):
     fig.update_layout(title=f"For {title}: {st.session_state.x_axis} VS {st.session_state.y_axis} VS {st.session_state.color_1} VS {st.session_state.size_1}")
 
     st.plotly_chart(fig)
+    expander.add_explanation_expander()
 
 def display_bowling_stats():
     bowling_players_odi, bowling_players_t20 = load_bowling_data()
@@ -113,6 +116,7 @@ def display_bowling_stats():
         display_bowling_chart(bowling_players_odi, 'ODI')
     elif st.session_state.Bowling_series == 'T20':
         display_bowling_chart(bowling_players_t20, 'T20')
+    st.markdown("<hr>", unsafe_allow_html=True)
 
     st.header("Multi Variable Scatter Plots ")
     options = ['Matches', 'Innings', 'Balls', 'Maidens', 'Runs Conceded', 'Wickets Taken', 'Bowling Average', 'Economy', 'Strike Rate']

@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from utilities import expander
 
 def set_page_configuration():
     st.set_page_config(
@@ -64,6 +65,8 @@ def display_bar_chart(odi_results, t20_results):
     )
 
     st.plotly_chart(fig_matches_results, use_container_width=True)
+    expander.add_explanation_expander()
+
 
 
 def calculate_matchup_stats(df, team1, team2, matchup_type):
@@ -114,6 +117,7 @@ def display_pie_chart(df_odi, df_t20, selected_opponent):
         st.plotly_chart(fig_t20, use_container_width=True)
 
     st.markdown("*Blank Chart indicates no Matches between teams")
+    expander.add_explanation_expander()
 
 def create_bar_chart(results_dataframe, match_type, countries: list):
     
@@ -198,6 +202,8 @@ def main():
                 st.plotly_chart(fig_odi_ground, use_container_width=True)
             else: 
                 st.plotly_chart(bubble_chart(df_odi, 'ODI'), use_container_width=True)
+            expander.add_explanation_expander()
+
         if match_type == "T20":
             if chart_type == "Wins By Ground":
                 countries = ["Nepal"] + st.session_state.bar_opponent
@@ -205,6 +211,7 @@ def main():
                 st.plotly_chart(fig_t20_ground, use_container_width=True)
             else:
                 st.plotly_chart(bubble_chart(df_t20, 'T20'), use_container_width=True)
+            expander.add_explanation_expander()
 
 if __name__ == "__main__":
     main()
