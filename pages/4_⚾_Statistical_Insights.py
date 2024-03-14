@@ -160,7 +160,7 @@ def main():
         'Series Overview',
         'Nepal Vs World',
         'Ground Performance Analysis',
-        "Player origin map"
+        "Player Origin Map"
     ]
     tabs = st.tabs(tab_titles)
 
@@ -218,6 +218,8 @@ def main():
         with open(folium_html_file_path, "r") as f:
             folium_html_content = f.read()
         st.components.v1.html(folium_html_content, width=800, height=550)
+        st.markdown('<p style="color:red; font-style: italic;">To view profiles of players that origin from that geographic area, zoom in using "+" and click on the marker.</p>', unsafe_allow_html=True)
+
         expander.add_explanation_expander()
 
 if __name__ == "__main__":
