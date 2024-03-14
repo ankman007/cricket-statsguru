@@ -35,51 +35,81 @@ def loading_info_data():
     return df       
 def showing_info():
     data = loading_info_data()
-    column1 , column2 = st.columns(2)
+    column1 , column2  , column3= st.columns([4 , 2, 4])
     with column1: 
         try: 
             age = int(data[data['Name'] == st.session_state.Player_1]['Age'].iloc[0])
         except:
             age = "Unknown"
-        st.markdown(f" **Full Name:** {data[data['Name'] == st.session_state.Player_1]['Full name'].iloc[0]}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Full name'].iloc[0]}")
         st.image(data[data['Name'] == st.session_state.Player_1]['Photo'].iloc[0] , width=250)
-        st.markdown(f" **Age:** {age}")
-        st.markdown(f" **Batting Style:** {data[data['Name'] == st.session_state.Player_1]['Batting Style'].iloc[0]}")
-        st.markdown(f" **Bowling Style:** {data[data['Name'] == st.session_state.Player_1]['Bowling Style'].iloc[0]}")
-        st.markdown(f" **Playing Order:** {data[data['Name'] == st.session_state.Player_1]['Playing Order'].iloc[0]}")
-    with column2:
+        st.markdown(f"{age}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Batting Style'].iloc[0]}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Bowling Style'].iloc[0]}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Playing Order'].iloc[0]}")
+    
+    with column2: 
+        st.markdown(" **Full Name** ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown(" **Age** ")
+        st.markdown(" **Batting Style** ")
+        st.markdown(" **Bowling Style** ")
+        st.markdown(" **Playing Order** ")
+    with column3:
         try: 
             age = int(data[data['Name'] == st.session_state.Player_2]['Age'].iloc[0])
         except:
             age = "Unknown"
-        st.markdown(f" **Full Name:** {data[data['Name'] == st.session_state.Player_2]['Full name'].iloc[0]}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Full name'].iloc[0]}")
         st.image(data[data['Name'] == st.session_state.Player_2]['Photo'].iloc[0] , width = 250)
-        st.markdown(f" **Age:** {int(data[data['Name'] == st.session_state.Player_2]['Age'].iloc[0])}")
-        st.markdown(f" **Batting Style:** {data[data['Name'] == st.session_state.Player_2]['Batting Style'].iloc[0]}")
-        st.markdown(f" **Bowling Style:** {data[data['Name'] == st.session_state.Player_2]['Bowling Style'].iloc[0]}")
-        st.markdown(f" **Playing Order:** {data[data['Name'] == st.session_state.Player_2]['Playing Order'].iloc[0]}")
-
-
-#creating pie charts for respective stats
-def create_pies(odi_df , t20_df  , player, column):
+        st.markdown(f"{int(data[data['Name'] == st.session_state.Player_2]['Age'].iloc[0])}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Batting Style'].iloc[0]}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Bowling Style'].iloc[0]}")
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Playing Order'].iloc[0]}")
+#creating bar charts for respective stats
+def chart(df1 , df2 , player1 , player2 , column):
     try:
-        odi_stat = odi_df[odi_df['Player'] == player][column].iloc[0]
+        odi_stats1 = df1[(df1.Player == player1)][column].iloc[0]
     except:
-        odi_stat = 0
+        odi_stats1 = 0
     try:
-        t20_stat = t20_df[t20_df["Player"]== player][column].iloc[0]
+        t20_stats1 = df2[(df2.Player == player1)][column].iloc[0]
     except:
-        t20_stat = 0
-    # Create a DataFrame for the pie chart
-    pie_data = pd.DataFrame({
-        'Series Type': ['ODI', 'T20'],
-        f'{column}': [odi_stat, t20_stat]
-    })
-    colors = px.colors.qualitative.Pastel1
-    # Create a pie chart using Plotly Express
-    fig = px.pie(pie_data, values=f'{column}' , color='Series Type', names='Series Type', title=f'Distribution of {player} {column} in ODI and T20' , color_discrete_sequence=colors , 
-                hole = 0.6  , width=500)
-    return fig
+        t20_stats1 = 0 
+    try:
+        odi_stats2 = df1[(df1.Player == player2)][column].iloc[0]
+    except:
+        odi_stats2 = 0
+    try:
+        t20_stats2 = df2[(df2.Player == player2)][column].iloc[0]
+    except:
+        t20_stats2 = 0
+    df1 = pd.DataFrame(
+        {
+            "Player": [player1 , player2] , 
+            "ODI Matches": [odi_stats1 , odi_stats2] , 
+            "T20 Matches": [t20_stats1 , t20_stats2]
+        }
+    )
+    df1
+    fig = px.bar(df1 , x = "Player" , y = ["ODI Matches" , "T20 Matches"], barmode="group" , color_discrete_sequence=px.colors.qualitative.Pastel1)
+    return fig 
 
 
 
@@ -106,17 +136,6 @@ def showing_data(batting_players_odi , bowling_players_odi , batting_players_t20
         selected_data = bowling_players_t20[(bowling_players_t20["Player"] == st.session_state.Player_1) | (bowling_players_t20["Player"] == st.session_state.Player_2)]
         st.dataframe(selected_data.set_index("Player").T)
 
-#creating Pie charts for Specific columns 
-def column_charts(odi_df , t20_df  , player1 , player2, column):
-    column1 , column2 = st.columns(2)
-    with column1:
-        fig1 = create_pies(odi_df , t20_df  , player1, column)
-        st.plotly_chart(fig1)
-    with column2:
-        fig2 = create_pies(odi_df , t20_df  , player2, column)
-        st.plotly_chart(fig2)
-
-
 def one_on_one_comparision():
     batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20 = load_cricket_data()
     player_info = loading_info_data()
@@ -131,12 +150,14 @@ def one_on_one_comparision():
                         key = "stat1" , 
                         horizontal=True
                         )
-        column_charts(batting_players_odi , batting_players_t20 , st.session_state.Player_1 , st.session_state.Player_2 , st.session_state.stat1)
+        fig = chart(batting_players_odi , batting_players_t20 , st.session_state.Player_1 , st.session_state.Player_2 , st.session_state.stat1)
+        st.plotly_chart(fig , use_container_width=True)
     if st.session_state.rating_type == "Bowling":
         stat2 = st.radio('Select Stat' , 
                         bowling_columns ,
                         key = "stat2" , 
                         horizontal=True
                         )
-        column_charts(bowling_players_odi , bowling_players_t20 , st.session_state.Player_1 , st.session_state.Player_2 , st.session_state.stat2)
+        fig = chart(bowling_players_odi , bowling_players_t20 , st.session_state.Player_1 , st.session_state.Player_2 , st.session_state.stat2)
+        st.plotly_chart(fig , use_container_width=True)
     st.write("*Blank Chart Indicates there is no value")
