@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Cricket StatsGuru",
-    page_icon="💥",
+    page_icon="🏠",
     layout="centered",
     initial_sidebar_state="expanded",
 )
