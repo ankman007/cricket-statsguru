@@ -145,7 +145,7 @@ def one_on_one_comparision():
     bowling_columns = ['Matches' , 'Innings' , 'Balls' , 'Maidens' ,'Runs Conceded' , 'Wickets Taken' , 'Bowling Average' , 'Economy' , 'Strike Rate' , 'Five Wickets' , 'Ten Wickets' , 'Catches Taken' , 'Stumping Made' ]
     # showing_data(batting_players_odi , bowling_players_odi , batting_players_t20 , bowling_players_t20)
     if st.session_state.rating_type == "Batting":
-        stat1 = st.radio('Select Stat' , 
+        stat1 = st.radio(' **Select Stat** ' , 
                         batting_columns ,
                         key = "stat1" , 
                         horizontal=True

@@ -160,6 +160,7 @@ def main():
         'Series Overview',
         'Nepal Vs World',
         'Ground Performance Analysis',
+        "Player origin map"
     ]
     tabs = st.tabs(tab_titles)
 
@@ -212,6 +213,12 @@ def main():
             else:
                 st.plotly_chart(bubble_chart(df_t20, 'T20'), use_container_width=True)
             expander.add_explanation_expander()
+    with tabs[3]:
+        folium_html_file_path = r"analytics\nepal_players_geomap_with_image.html" 
+        with open(folium_html_file_path, "r") as f:
+            folium_html_content = f.read()
+        st.components.v1.html(folium_html_content, width=800, height=550)
+        expander.add_explanation_expander()
 
 if __name__ == "__main__":
     main()
