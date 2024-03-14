@@ -160,7 +160,7 @@ def main():
         'Series Overview',
         'Nepal Vs World',
         'Ground Performance Analysis',
-        "Player Origin Map"
+        "Player Origin Map",
     ]
     tabs = st.tabs(tab_titles)
 
@@ -221,6 +221,7 @@ def main():
         st.markdown('<p style="color:red; font-style: italic;">To view profiles of players that origin from that geographic area, zoom in using "+" and click on the marker.</p>', unsafe_allow_html=True)
 
         expander.add_explanation_expander()
+
 
 if __name__ == "__main__":
     main()

@@ -3,3 +3,4 @@ requests
 streamlit
 beautifulsoup4
 wikipedia-api
+scikit-learn
