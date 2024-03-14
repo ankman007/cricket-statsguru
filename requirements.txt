@@ -2,3 +2,4 @@ plotly
 requests
 streamlit
 beautifulsoup4
+wikipedia-api
