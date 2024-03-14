@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd  
 import json
+import wikipediaapi
 from utilities import batting_stats, bowling_stats
 
 
@@ -23,8 +24,23 @@ def loading_data():
     player_info = pd.read_csv("resources/players_info.csv")
     return batting_players_odi, batting_players_t20, bowling_players_odi, bowling_players_t20, player_info
 
-import json
+def get_wikipedia_summary(player_name):
+    wiki_wiki = wikipediaapi.Wikipedia('en', user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3')
+    page = wiki_wiki.page(player_name)
+    if page.exists():
+        return page.summary
+    else:
+        return "Summary not available."
 
+
+def get_wikipedia_summary(player_name):
+    wiki_wiki = wikipediaapi.Wikipedia('en')
+    page = wiki_wiki.page(player_name)
+    if page.exists():
+        return page.summary.split('\n\n')[0]
+    else:
+        return "No Wikipedia page found for this player."
+    
 def display_player_info(player_info_row, batting_stats_odi, batting_stats_t20, bowling_stats_odi, bowling_stats_t20, player_achievement=None, player_caps=None):
     
     total_runs = int(batting_stats_odi.get('Runs', 0)) + int(batting_stats_t20.get('Runs', 0))
@@ -36,7 +52,7 @@ def display_player_info(player_info_row, batting_stats_odi, batting_stats_t20, b
         col1, col2 = st.columns([1, 1])  
         
         with col1:
-            st.image(player_info_row['Photo'], width=250)
+            st.image(player_info_row['Photo'], width=320)
         
         with col2:
             st.markdown(f" **Age:** {player_info_row.get('Age', 'Unknown')}  \n")
@@ -48,16 +64,17 @@ def display_player_info(player_info_row, batting_stats_odi, batting_stats_t20, b
             st.markdown(f" **Total Wickets Taken:** {total_wickets} ")
             
             if not pd.isna(player_caps):
-
                 st.markdown(f" **International Caps:** {int(player_caps)}  \n")
 
             if player_achievement:
                 st.markdown(f" **Achievement:** {player_achievement}  \n")
-            # if player_caps is not None:
-            #     st.markdown(f" **International Caps:** {player_caps}  \n")
             
         with st.expander("Player Bio"):
+            player_name = player_info_row["Full name"]
+            # summary = get_wikipedia_summary(player_name)
+            # st.write(summary)
             st.write('Player bio is being added soon. Stay tuned.😉')
+
 
 
 
@@ -69,7 +86,7 @@ def main():
     player_info = player_info.merge(player_achievement[['player_name', 'international_caps']], left_on='Name', right_on='player_name', how='left')
 
     player_info_sorted = player_info.sort_values(by='international_caps', ascending=False)
-
+    st.markdown('<h1 style="text-align: center; color: red;">Meet the Players: Profiles</h1>', unsafe_allow_html=True)
     for _, player_row in player_info_sorted.iterrows():
         player_name = player_row['Name']
         
