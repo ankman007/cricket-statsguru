@@ -29,16 +29,23 @@ def featured_content():
     st.markdown("- **Performance Analysis**: Analyze player and team performances through interactive heatmaps and trend visualizations.")
 
 def display_sources():
-    st.markdown('# Our Sources')
+    # st.markdown('# Our Sources' , unsafe_allow_html= True)
+    st.markdown('<ol>'
+                '<li><a href= "https://www.espncricinfo.com/" target="_blank">ESPNCRICINFO</a></li>'
+                '<li><a href= "https://en.wikipedia.org/wiki/List_of_Nepal_Twenty20_International_cricket_records" target="_blank">Nepal Twenty20 International Cricket Records</a></li>'
+                '<li><a href= "https://en.wikipedia.org/wiki/List_of_Nepal_One_Day_International_records" target="_blank">Nepal One Day International Records</a></li>'
+                '<li><a href= "https://www.mykhel.com/cricket/nepal-tp266/players/" target="_blank">Nepal Cricket Players on MyKhel</a></li>'
+                '<li><a href= "https://www.cricnepal.com/" target="_blank">CricNepal</a></li>'
+                '</ol>', unsafe_allow_html = True)
 
 def main():
-    tab1, tab2, tab3 = st.tabs(["Project Introduction", "Featured Content", "Our Sources"])
+    tab1, tab3 = st.tabs(["Project Introduction", "Our Sources"])
 
     with tab1:
         display_project_introduction()
 
-    with tab2:
-        featured_content()
+    # with tab2:
+    #     featured_content()
     
     with tab3:
         display_sources()
