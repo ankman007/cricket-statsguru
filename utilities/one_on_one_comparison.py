@@ -41,32 +41,33 @@ def showing_info():
             age = int(data[data['Name'] == st.session_state.Player_1]['Age'].iloc[0])
         except:
             age = "Unknown"
-        st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Full name'].iloc[0]}")
         st.image(data[data['Name'] == st.session_state.Player_1]['Photo'].iloc[0] , width=250)
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Full name'].iloc[0]}")
         st.markdown(f"{age}")
         st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Batting Style'].iloc[0]}")
         st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Bowling Style'].iloc[0]}")
         st.markdown(f"{data[data['Name'] == st.session_state.Player_1]['Playing Order'].iloc[0]}")
     
     with column2: 
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
+        st.markdown("               ")
         st.markdown(" **Full Name** ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
-        st.markdown("               ")
+
         st.markdown(" **Age** ")
         st.markdown(" **Batting Style** ")
         st.markdown(" **Bowling Style** ")
@@ -76,40 +77,43 @@ def showing_info():
             age = int(data[data['Name'] == st.session_state.Player_2]['Age'].iloc[0])
         except:
             age = "Unknown"
-        st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Full name'].iloc[0]}")
         st.image(data[data['Name'] == st.session_state.Player_2]['Photo'].iloc[0] , width = 250)
+        st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Full name'].iloc[0]}")
         st.markdown(f"{int(data[data['Name'] == st.session_state.Player_2]['Age'].iloc[0])}")
         st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Batting Style'].iloc[0]}")
         st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Bowling Style'].iloc[0]}")
         st.markdown(f"{data[data['Name'] == st.session_state.Player_2]['Playing Order'].iloc[0]}")
-#creating bar charts for respective stats
-def chart(df1 , df2 , player1 , player2 , column):
-    try:
-        odi_stats1 = df1[(df1.Player == player1)][column].iloc[0]
-    except:
-        odi_stats1 = 0
-    try:
-        t20_stats1 = df2[(df2.Player == player1)][column].iloc[0]
-    except:
-        t20_stats1 = 0 
-    try:
-        odi_stats2 = df1[(df1.Player == player2)][column].iloc[0]
-    except:
-        odi_stats2 = 0
-    try:
-        t20_stats2 = df2[(df2.Player == player2)][column].iloc[0]
-    except:
-        t20_stats2 = 0
-    df1 = pd.DataFrame(
-        {
-            "Player": [player1 , player2] , 
-            "ODI Matches": [odi_stats1 , odi_stats2] , 
-            "T20 Matches": [t20_stats1 , t20_stats2]
-        }
+
+
+def chart(df1, df2, player1, player2, column):
+    player_data = []
+    for player in [player1, player2]:
+        odi_stats = df1.loc[df1['Player'] == player, column].iloc[0] if player in df1['Player'].values else 0
+        t20_stats = df2.loc[df2['Player'] == player, column].iloc[0] if player in df2['Player'].values else 0
+        player_data.append([player, odi_stats, t20_stats])
+        
+    df = pd.DataFrame(player_data, columns=["Player", "ODI Matches", "T20 Matches"])
+    
+    fig = px.bar(df, x="Player", y=["ODI Matches", "T20 Matches"], barmode="group", 
+                 color_discrete_sequence=px.colors.qualitative.Pastel1)
+    
+    # Customizing the layout
+    fig.update_layout(
+        title="Player Performance Comparison",
+        xaxis_title="Player's Name",
+        yaxis_title="Number of Matches",
+        legend_title="Match Type",
+        font=dict(family="Arial", size=12, color="black"),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        bargap=0.2,
+        margin=dict(l=50, r=50, t=50, b=50)
     )
-    df1
-    fig = px.bar(df1 , x = "Player" , y = ["ODI Matches" , "T20 Matches"], barmode="group" , color_discrete_sequence=px.colors.qualitative.Pastel1)
-    return fig 
+    
+    # Customizing the bar colors
+    fig.update_traces(marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.8)
+    
+    return fig
 
 
 
