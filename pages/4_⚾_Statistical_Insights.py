@@ -127,7 +127,7 @@ def create_bar_chart(results_dataframe, match_type, countries: list):
     ground_results_count = ground_results_count.sort_values(by='Total', ascending=False).drop(columns='Total')
 
     fig = px.bar(ground_results_count, barmode='stack', 
-                 color_discrete_sequence=px.colors.qualitative.Set1,
+                 color_discrete_sequence=px.colors.qualitative.Pastel1,
                  labels={country: 'Wins' if country in countries else 'Losses' for country in countries})
 
     fig.update_layout(
@@ -185,7 +185,7 @@ def main():
         t20_opponents = df_t20[df_t20['Team 1'] != 'Nepal']['Team 1'].unique()
         selected_opponent = st.selectbox('Select country', my_union(odi_opponents, t20_opponents), 
                                         key="opponent_selected", index=my_union(odi_opponents, t20_opponents).index("Netherlands"))
-        matchup_type = st.selectbox("Select Matchup Type", ["ODI", "T20"])
+        # matchup_type = st.selectbox("Select Matchup Type", ["ODI", "T20"])
         display_pie_chart(df_odi, df_t20, selected_opponent)
     
     with tabs[2]:
