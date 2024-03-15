@@ -10,7 +10,7 @@ def set_page_configuration():
     )
 
 def main():
-    # set_page_configuration()
+    set_page_configuration()
     # tab_titles = [
     #     'Winner Prediction',
     # ]

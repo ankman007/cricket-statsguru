@@ -61,9 +61,9 @@ def modeling():
         display_result(df_t20, selected_opponent, selected_match_type, label_encoder)
     st.markdown("""
         <p style="color:red; font-style: italic;">
-            This feature is still under development. Due to limited resources, predictions may not be entirely accurate. Please use this information judiciously.
+            Note: This feature is still under development. Due to limited resources, predictions may not be entirely accurate. Please use this information judiciously.
         </p>
     """, unsafe_allow_html=True)
-    
+
 if __name__ == "__main__":
     modeling()
